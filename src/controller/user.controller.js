@@ -51,16 +51,16 @@ exports.postLoginInfo = (req, res, next) => {
                     }else{
                         console.log('Successfully logged in!');
                         const payload = {
-                            user_id: userObj.user_id,
+                            // user_id: userObj.user_id,
                             username: userObj.username,
                             email: userObj.email,
-                            exp: Math.floor(Date.now() / 1000) + (60 * 60),
                         }
-                        const token = jwt.sign(payload,'secret')
-                        return res.json({token})
-                        console.log(token);
-                  
-                        // return res.redirect('/')
+                        const token = jwt.sign(payload, 'secret', { expiresIn: '1h' })
+
+                        res.status(200).json({token})
+                        console.log(`Created token>>> ${token}`);
+                        
+                        // res.redirect('/')
                     }
 
                 })
@@ -71,23 +71,34 @@ exports.postLoginInfo = (req, res, next) => {
 }
 
 exports.checkToken = (req, res, next) => {
-    const bearToken = req.headers["authorization"];
-    const bearer = bearToken.split(" ");
-    const token = bearer[1];
-  
-    jwt.verify(token, "secret", (error, user) => {
-      if (error) {
-        console.log("Token not found");
+    // const bearToken = req.headers["authorization"];
+    // const bearer = bearToken.split(" ");
+    // const token = bearer[1];
 
-        return res.sendStatus(403);
-      } else {
-        console.log("Token found");
-        return res.json({
-          user,
+    // jwt.verify(token, "secret", (error, user) => {
+    //   if (error) {
+    //     console.log("Token not found");
+
+    //     return res.sendStatus(403);
+    //   } else {
+    //     console.log("Token found");
+    //     res.json({user});
+    //   }
+    // });
+    // next();
+    console.log(req.headers);
+    const authHeader = req.headers["authorization"];
+    try {
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token, "secret");
+        console.log(`Decoded>>> ${decoded}`);
+        req.jwtPayload = decoded;
+        next();
+      } catch (err) {
+        return res.status(401).json({
+          message: 'Not authenticated'
         });
-      }
-    });
-    next();
+      }    
 }
 
 

@@ -8,8 +8,8 @@ const pool = mysql.createPool({
     port: process.env.MYSQL_PORT
 })
 
-const sql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='Users'`;
-pool.query(sql, (err, data) => {
+const usersTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='Users'`;
+pool.query(usersTableSql, (err, data) => {
   if (err) {
     return console.error(err.message);
   }
@@ -27,20 +27,63 @@ const createUsersTable = () => {
     pool.query(`DROP TABLE IF EXISTS Users`);  
 
     pool.query(
-        `CREATE TABLE Users(
-            user_id INT PRIMARY KEY AUTO_INCREMENT,
-            username VARCHAR(50) NOT NULL UNIQUE,
-            email VARCHAR(50) NOT NULL UNIQUE,
-            password VARCHAR(100) NOT NULL
-        )`,
+      `CREATE TABLE Users(
+          user_id INT PRIMARY KEY AUTO_INCREMENT,
+          username VARCHAR(50) NOT NULL UNIQUE,
+          email VARCHAR(50) NOT NULL UNIQUE,
+          password VARCHAR(100) NOT NULL
+      )`,
 
-        (err) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            console.log("Successful creation of the 'Users' table");
-        }
+      (err) => {
+          if (err) {
+              return console.error(err.message);
+          }
+          console.log("Successful creation of the 'Users' table");
+      }
     ); 
+}
+
+
+
+const processListTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='ProcessList'`;
+pool.query(processListTableSql, (err, data) => {
+  if (err) {
+    return console.error(err.message);
+  }
+
+  if (data.length === 0) {
+    console.log("Table 'ProcessList' does not exist");
+    // createprocessListTable()
+  } else {
+    console.log("Table 'ProcessList' exists");
+    // createprocessListTable()
+
+  }
+});
+
+const createprocessListTable = () => {
+  pool.query(`DROP TABLE IF EXISTS ProcessList`);  
+
+  pool.query(
+    `CREATE TABLE ProcessList(
+      list_id INT PRIMARY KEY AUTO_INCREMENT,
+      company VARCHAR(50) NOT NULL,
+      company_email VARCHAR(50) NOT NULL UNIQUE,
+      company_phone INT,
+      location VARCHAR(50),
+      status VARCHAR(50) NOT NULL,
+      date_applied VARCHAR(50) NOT NULL,
+      memo json,
+      todo VARCHAR(50)
+    )`,
+
+    (err) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log("Successful creation of the 'ProcessList' table");
+    }
+  )
 }
 
 

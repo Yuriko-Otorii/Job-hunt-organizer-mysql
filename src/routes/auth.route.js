@@ -9,7 +9,7 @@ const {
 } = require('../controller/user.controller')
 
 router.get("/", checkToken, (req, res) => {
-  res.render('404error')
+  res.send(`<h1>Hello world!</h1>`)
 })
 
 router.get('/signup', getSignupPage)

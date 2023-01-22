@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const app = express()
 
+app.use(express.json())
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 app.use(logger('dev'))
@@ -18,9 +19,11 @@ const dbConnection = require("./util/mysql");
 
 //import routes
 const authRoute = require('./routes/auth.route');
+const homeRoute = require('./routes/home.route');
 
 //routes
 app.use('/auth', authRoute);
+app.use('/home', homeRoute);
 
 
 const PORT = process.env.PORT || 8000

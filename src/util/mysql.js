@@ -45,21 +45,20 @@ const createUsersTable = () => {
 
 
 
-const processListTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='ProcessList'`;
-pool.query(processListTableSql, (err, data) => {
-  if (err) {
-    return console.error(err.message);
-  }
+// const processListTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='ProcessList'`;
+// pool.query(processListTableSql, (err, data) => {
+//   if (err) {
+//     return console.error(err.message);
+//   }
 
-  if (data.length === 0) {
-    console.log("Table 'ProcessList' does not exist");
-    // createprocessListTable()
-  } else {
-    console.log("Table 'ProcessList' exists");
-    // createprocessListTable()
-
-  }
-});
+//   if (data.length === 0) {
+//     console.log("Table 'ProcessList' does not exist");
+//     // createprocessListTable()
+//   } else {
+//     console.log("Table 'ProcessList' exists");
+//     // createprocessListTable()
+//   }
+// });
 
 const createprocessListTable = () => {
   pool.query(`DROP TABLE IF EXISTS ProcessList`);  
@@ -68,13 +67,17 @@ const createprocessListTable = () => {
     `CREATE TABLE ProcessList(
       list_id INT PRIMARY KEY AUTO_INCREMENT,
       company VARCHAR(50) NOT NULL,
+      location VARCHAR(50),
       company_email VARCHAR(50) NOT NULL UNIQUE,
       company_phone INT,
-      location VARCHAR(50),
+      company_website VARCHAR(100),
+      position VARCHAR(50) NOT NULL,
+      job_type VARCHAR(50) NOT NULL,
       status VARCHAR(50) NOT NULL,
       date_applied VARCHAR(50) NOT NULL,
-      memo json,
-      todo VARCHAR(50)
+      notes json,
+      next_step VARCHAR(50),
+      job_post VARCHAR(100)
     )`,
 
     (err) => {

@@ -1,10 +1,75 @@
 <%- include("partials/_header") -%>
 <div class="container mx-auto px-4 sm:px-8">
-    <div class="py-8">
-      <div class="flex justify-between">
-        <h2 class="text-2xl font-semibold leading-tight">List Detail</h2>
+  <a href="/home"><i class="fa-solid fa-arrow-left mr-2 mt-8"></i>Back to List</a>
+  <div class="py-5">
+    <div class="flex justify-between items-center">
+      <div class="flex items-baseline  header-left">
+        <span class="mr-1">Status: </span>
+        <span
+          class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+        >
+          <span
+            aria-hidden
+            class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+          ></span>
+          <span class="relative">On process</span>
+        </span>
+      </div>
+      <div class="header-right">
+        <a href="/home/edit">
+          <button class="rounded-lg px-4 py-2 border-2 border-blue-500 text-blue-500 hover:bg-blue-600 hover:text-blue-100 duration-300">Edit</button>
+        </a>
+          <button class="rounded-lg px-4 py-2 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-red-100 duration-300">Delete</button>
       </div>
     </div>
-</div>
 
+    <div class="flex justify-between">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-96 m-5 bg-blue-100">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400">Information</h2>
+        <div>
+          <i class="fa-solid fa-house mr-2"></i>
+          <span class="text-xl font-bold">Company name</span>
+        </div>
+        <div class="flex flex-col mt-3">
+          <div>
+            <i class="fa-solid fa-map-location-dot mr-2"></i><span>Vancouver, BC</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-envelope mr-2"></i><span>test@test.com</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-phone mr-2"></i><span>604-127-0932</span>
+          </div>
+          <div>
+            <i class="fa-solid fa-arrow-pointer mx-1 mr-3"></i><a href="">Website</a>
+          </div>
+        </div>
+        <div class="mt-6">
+          <div class="my-2 flex items-baseline">
+            <p class="text-md font-semibold w-28" >Date applied: </p>
+            <p>10 Jan 2023</p>
+          </div>
+          <div class="my-2 flex items-baseline">
+            <p class="text-md font-semibold w-28">Position: </p>
+            <p>Full-time</p>
+          </div>
+          <div class="my-2 flex items-baseline">
+            <p class="text-md font-semibold w-28">Job type: </p>
+            <p>Front-end developer</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-96 m-5 bg-blue-100">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400">Next</h2>
+        <p class="text-gray-700">Send coding tasks</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-96 m-5 bg-blue-100">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400">Notes</h2>
+        <ul>
+          <li>From Indeed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <%- include("partials/_footer") -%>

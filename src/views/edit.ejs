@@ -1,0 +1,138 @@
+<%- include("partials/_header") -%>
+<div class="container mx-auto px-8 sm:px-8">
+  <a href="/home"
+    ><i class="fa-solid fa-arrow-left mr-2 mt-8"></i>Back to detail</a
+  >
+  <div class="flex items-center p-6">
+    <form action="" Method="POST">
+      <div class="py-5">
+          <div class="flex justify-between items-center">
+              <div class="flex items-baseline header-left">
+                  <span class="mr-2">Status: </span>
+                  <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                  <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option selected>Choose a status</option>
+                      <option value="waiting">Waiting</option>
+                      <option value="onProcess">On process</option>
+                      <option value="offered">Offered</option>
+                      <option value="refused">Refused</option>
+                  </select>
+              </div>
+              <button class="animate-bounce rounded-lg px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 duration-300">Save changes</button>
+          </div>
+
+        <div class="flex justify-between">
+          <div class="p-6 rounded-lg shadow-lg w-96 h-fit m-5 bg-blue-100">
+            <h2
+              class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400"
+            >
+              Information
+            </h2>
+            
+            <div class="flex flex-col">
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="companyName" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Company name</label>
+                <input id="companyName" type="text" value="Google" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="location" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Location</label>
+                <input id="location" type="text" value="Vancouver, BC" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="companyEmail" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Company e-mail</label>
+                <input id="companyEmail" type="text" value="test@test.com" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="companyPhone" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Company phone</label>
+                <input id="companyPhone" type="text" value="604-127-0932" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="companyWebsite" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Website</label>
+                <input id="companyWebsite" type="text" value="google.com" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+            </div>
+            <div class="mt-6">
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="dateApplied" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Date applied</label>
+                <input id="dateApplied" type="text" value="10 Jan 2023" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="jobType" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Date applied</label>
+                <input id="jobType" type="text" value="Full-time" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+              <div class="group relative w-72 md:w-80 lg:w-96">
+                <label for="position" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Date applied</label>
+                <input id="position" type="text" value="Front-end developer" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+              </div>
+            </div>
+          </div>
+          <div class="p-6 rounded-lg shadow-lg w-96 h-fit m-5 bg-blue-100">
+            <h2
+              class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400"
+            >
+              Next
+            </h2>
+            <div class="nextInputGroup">
+              <div class="group relative w-72 md:w-80 lg:w-96" id="nextRow">
+                <label for="next" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400"></label>
+                <input id="next" type="text" value="Send coding tasks" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+                <button type="button" onclick="deleteRow()"> <i class="fa-solid fa-delete-left ml-2"></i></button>
+              </div>
+            </div>
+            <button type="button" onclick="addNextRow()" class="rounded-lg px-3 py-1 border mt-2 border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-gray-100 duration-300 rounded-full"><i class="fa-solid fa-plus mr-2"></i>Add a row</button>
+          </div>
+          <div class="p-6 rounded-lg shadow-lg w-96 h-fit m-5 bg-blue-100">
+            <h2
+              class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400"
+            >
+              Notes
+            </h2>
+            <div class="notesInputGroup">
+              <div class="group relative w-72 md:w-80 lg:w-96" id="notesRow">
+                <label for="notes" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400"></label>
+                <input id="notes" type="text" value="From indeed" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+                <button type="button" onclick="deleteRow()"> <i class="fa-solid fa-delete-left ml-2"></i></button>
+              </div>
+            </div>
+            <button type="button" onclick="addNotesRow()" class="rounded-lg px-3 py-1 border mt-2 border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-gray-100 duration-300 rounded-full"><i class="fa-solid fa-plus mr-2"></i>Add a row</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const addNextRow = () => {
+    const nextInputGroup = document.querySelector('.nextInputGroup')
+    const newNextInput = document.createElement('div')
+    newNextInput.innerHTML = `
+      <div class="group relative w-72 md:w-80 lg:w-96" id="nextRow">
+        <label for="next" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400"></label>
+        <input id="next" type="text" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+        <button type="button" onclick="deleteRow()"> <i class="fa-solid fa-delete-left ml-2"></i></button>
+      </div>
+    `
+    nextInputGroup.appendChild(newNextInput)
+  }
+  
+  const addNotesRow = () => {
+    const notesInputGroup = document.querySelector('.notesInputGroup')
+    const newNotesInput = document.createElement('div')
+    newNotesInput.innerHTML = `
+      <div class="group relative w-72 md:w-80 lg:w-96" id="notesRow">
+        <label for="notes" class="block pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400"></label>
+        <input id="notes" type="text" class="peer h-10 w-72 rounded-md bg-gray-50 px-4 mb-2 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400" />
+        <button type="button" onclick="deleteRow()"> <i class="fa-solid fa-delete-left ml-2"></i></button>
+      </div>
+    `
+    notesInputGroup.appendChild(newNotesInput)
+  }
+
+  const deleteRow = () => {
+    const target = event.target.parentElement.parentElement
+    target.remove()
+  }
+</script>
+
+<%- include("partials/_footer") -%>

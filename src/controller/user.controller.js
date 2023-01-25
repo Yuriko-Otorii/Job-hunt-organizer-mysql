@@ -17,7 +17,7 @@ exports.postSignupInfo = (req, res, next) => {
     const newUser = new User(username, email, hassedPassword)
     newUser.signup()
         .then(() => {
-            return res.redirect('/login')
+            return res.redirect('/auth/login')
         })
         .catch((err) => {
             if(err.message.includes("for key 'Users.username'")){
@@ -51,16 +51,18 @@ exports.postLoginInfo = (req, res, next) => {
                     }else{
                         console.log('Successfully logged in!');
                         const payload = {
-                            // user_id: userObj.user_id,
+                            user_id: userObj.user_id,
                             username: userObj.username,
                             email: userObj.email,
                         }
+                                                
                         const token = jwt.sign(payload, 'secret', { expiresIn: '1h' })
-
                         res.status(200).json({token})
-                        console.log(`Created token>>> ${token}`);
                         
-                        // res.redirect('/')
+                        // console.log(payload);
+                        // console.log(`Created token>>> ${token}`);
+                        
+                        res.redirect('/')
                     }
 
                 })

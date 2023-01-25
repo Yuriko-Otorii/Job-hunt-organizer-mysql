@@ -76,8 +76,20 @@ exports.deleteList = (req, res, next) => {
 }
 
 exports.updateFavorite = (req, res, next) => {
-    console.log(req.body);
-    // List.updateFavorite()
+    const { favorite, list_id } = req.body
+    if(+favorite === 0){
+        List.updateFavorite(true, list_id)
+            .then(() => {
+                return res.redirect('/home')
+            })
+            .catch((err) => console.error(err.message))
+    }else{
+        List.updateFavorite(false, list_id)
+            .then(() => {
+                return res.redirect('/home')
+            })
+            .catch((err) => console.error(err.message))
+    }
 }
 
 

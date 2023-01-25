@@ -4,34 +4,34 @@
     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
       <div class="mb-4 flex justify-between">
         <div>
-          <button type="button" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-blue-500 text-blue-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-blue-300 hover:bg-blue-500 hover:text-white">
+          <button type="button" onclick="getAllColumn()" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-blue-500 text-blue-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-blue-300 hover:bg-blue-500 hover:text-white">
             All
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-blue-500 group-hover:text-white">
               <%= list.length %>
             </span>
           </button>
-          <button type="button" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-green-500 text-green-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-green-300 hover:bg-green-500 hover:text-white">
+          <button type="button" onclick="handleFilter('On process')" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-green-500 text-green-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-green-300 hover:bg-green-500 hover:text-white">
             On process
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-green-500 group-hover:text-white">
-              1
+              <%= list.filter(item => item.status === "onProcess").length %>
             </span>
           </button>
-          <button type="button" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-yellow-300 text-yellow-300 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-yellow-300 hover:bg-yellow-300 hover:text-white">
+          <button type="button" onclick="handleFilter('No response')" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-yellow-300 text-yellow-300 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-yellow-300 hover:bg-yellow-300 hover:text-white">
             No response
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-yellow-300 group-hover:text-white">
-              0
+              <%= list.filter(item => item.status === "noResponse").length %>
             </span>
           </button>
-          <button type="button" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-orange-400 text-orange-400 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-orange-400 hover:bg-orange-400 hover:text-white">
+          <button type="button" onclick="handleFilter('Offered')" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-orange-400 text-orange-400 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-orange-400 hover:bg-orange-400 hover:text-white">
             Offered
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-orange-400 group-hover:text-white">
-              0
+              <%= list.filter(item => item.status === "offered").length %>
             </span>
           </button>
-          <button type="button" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-gray-500 text-gray-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-gray-300 hover:bg-gray-500 hover:text-white">
-            Dclined
+          <button type="button" onclick="handleFilter('Declined')" class="group inline-flex items-center px-4 py-2 text-sm font-medium text-center border border-gray-500 text-gray-500 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-gray-300 hover:bg-gray-500 hover:text-white">
+            Declined
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-gray-500 group-hover:text-white">
-              0
+              <%= list.filter(item => item.status === "declined").length %>
             </span>
           </button>
         </div>
@@ -76,7 +76,7 @@
                 Next
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                class="statusTh px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
               >
                 Status
               </th>
@@ -97,14 +97,16 @@
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <form action="/home/favupdate?_method=PUT" method="POST">
                         <button type="submit"><i class="fa-regular fa-star"></i></button>
-                        <input type="hidden" value="<%= item.favorite %>">
+                        <input type="hidden" name="favorite" value="<%= item.favorite %>">
+                        <input type="hidden" name="list_id" value="<%= item.list_id %>">
                       </form>
                     </td>
                   <% }else{ %>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <form action="/home/favupdate?_method=PUT" method="POST">
                         <button type="submit"><i class="fa-regular fa-star text-yellow-300"></i></button>
-                        <input type="hidden" value="<%= item.favorite %>">
+                        <input type="hidden" name="favorite" value="<%= item.favorite %>">
+                        <input type="hidden" name="list_id" value="<%= item.list_id %>">
                       </form>
                     </td>
                   <% } %>
@@ -124,7 +126,7 @@
                       <%= eachNext %><br>
                     <% }) %>
                   </td>
-                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-sm">
+                  <td id="status_td" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-sm">
                     <% if(item.status === "noResponse"){ %>
                       <span
                       class="relative inline-block px-3 py-1 font-semibold text-yellow-900 leading-tight"
@@ -151,7 +153,7 @@
                       >
                         <span
                           aria-hidden
-                          class="absolute inset-0 bg-orange-200 opacity-50 rounded-full"
+                          class="absolute inset-0 bg-orange-300 opacity-60 rounded-full"
                         ></span>
                         <span class="relative">Offered</span>
                       </span>
@@ -200,5 +202,30 @@
     </div>
   </div>
 </div>
+
+<script>
+  const table = document.querySelector("table")
+
+  const getAllColumn = () => {
+    for (let i = 1; i < table.rows.length; i++) {
+      const row = table.rows[i];
+      row.style.display = 'table-row';
+    }
+  }
+
+  const handleFilter = (target) => {
+    for (let i = 1; i < table.rows.length; i++) {
+      const row = table.rows[i];
+      row.style.display = 'none';
+
+      for (let j = 0; j < row.cells.length; j++) {
+      if (row.cells[j].textContent.match(target)) {
+        row.style.display = 'table-row';
+        break;
+      }
+    }
+    }
+  }
+</script>
 
 <%- include("partials/_footer") -%>

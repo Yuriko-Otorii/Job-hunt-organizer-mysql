@@ -110,7 +110,7 @@ module.exports = class List {
 
     static updateFavorite = (data, id) => {
         const sql = `UPDATE ProcessList SET favorite = ? WHERE list_id = ?`
-        const params = [data, id]
+        const params = [data, +id]
         return db.execute(sql, params)
     }
 

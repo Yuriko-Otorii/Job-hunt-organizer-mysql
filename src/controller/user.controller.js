@@ -64,9 +64,6 @@ exports.postLoginInfo = (req, res, next) => {
                             httpOnly: true,
                         });
                         res.redirect('/home')
-                        // res.redirect('/home')
-                        // console.log(payload);
-                        // console.log(`Created token>>> ${token}`);
                         
                     }
 
@@ -90,6 +87,4 @@ exports.checkToken = (req, res, next) => {
     }
 }
 
-
-//https://nodejs.keicode.com/nodejs/express-jwtauth.php
 

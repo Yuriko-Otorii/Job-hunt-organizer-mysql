@@ -7,11 +7,11 @@
         <span class="mr-1">Status: </span>
         <% if(detailInfo.status === "noResponse"){ %>
           <span
-          class="relative inline-block px-3 py-1 font-semibold text-yellow-900 leading-tight"
+          class="relative inline-block px-3 py-1 font-semibold text-purple-900 leading-tight"
         >
           <span
             aria-hidden
-            class="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"
+            class="absolute inset-0 bg-purple-200 opacity-50 rounded-full"
           ></span>
           <span class="relative">No response</span>
         </span>
@@ -75,7 +75,7 @@
             <i class="fa-solid fa-phone mr-2"></i><span><%= detailInfo.company_phone %></span>
           </div>
           <div>
-            <i class="fa-solid fa-arrow-pointer mx-1 mr-3"></i><a href=""><%= detailInfo.company_website %></a>
+            <i class="fa-solid fa-arrow-pointer mx-1 mr-3"></i><a break-words href="http://<%= detailInfo.company_website %>" target="_blank" class="text-blue-500 hover:text-blue-800 hover:underline hover:underline-offset-4" ><%= detailInfo.company_website %></a>
           </div>
         </div>
         <div class="mt-6">
@@ -85,20 +85,20 @@
           </div>
           <div class="my-2 flex items-baseline">
             <p class="text-md font-semibold w-28">Position: </p>
-            <p><%= detailInfo.position %></p>
+            <p break-words><%= detailInfo.position %></p>
           </div>
           <div class="my-2 flex items-baseline">
             <p class="text-md font-semibold w-28">Job type: </p>
-            <p><%= detailInfo.job_type %></p>
+            <p break-words><%= detailInfo.job_type %></p>
           </div>
         </div>
       </div>
       <div class="p-6 rounded-lg shadow-lg w-96 h-fit my-5 bg-blue-100">
         <h2 class="text-2xl font-bold mb-4 text-gray-800 underline underline-offset-4 decoration-1 decoration-gray-400">Next</h2>
         <ul class="list-disc pl-6">
-          <% if(detailInfo.next.next[0] !== ""){ %>
+          <% if(detailInfo.next.next[0] !== "" | detailInfo.next.next[0] === null){ %>
             <% detailInfo.next.next.forEach(item => { %>
-              <li class="text-gray-700"><%= item %></li><br>
+              <li break-words class="text-gray-700"><%= item %></li><br>
             <% }) %>
           <% } %>
         </ul>
@@ -108,7 +108,7 @@
         <ul class="list-disc pl-6">
           <% if(detailInfo.notes.notes[0] !== ""){ %>
             <% detailInfo.notes.notes.forEach(item => { %>
-              <li class="text-gray-700"><%= item %></li><br>
+              <li break-words class="text-gray-700"><%= item %></li><br>
             <% }) %>
           <% } %>
         </ul>
@@ -118,12 +118,12 @@
 </div>
 <script>
   const deleteConfirm = () => {
-        const result = window.confirm("Would you like to delete this list permanently?")
-        if(result){
-          window.location.href('/home/<%= detailInfo.list_id %>/delete?_method=DELETE')  
-        }else{
-          return false
-        }
+    const result = window.confirm("Would you like to delete this list permanently?")
+    if(result){
+      window.location.href('/home/<%= detailInfo.list_id %>/delete?_method=DELETE')  
+    }else{
+      return false
+    }
   }
 </script>
 <%- include("partials/_footer") -%>

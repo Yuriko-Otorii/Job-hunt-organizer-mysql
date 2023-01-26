@@ -23,7 +23,7 @@ const authRoute = require('./routes/auth.route');
 const homeRoute = require('./routes/home.route');
 
 //routes
-app.use('/auth', authRoute);
+app.use('/', authRoute);
 app.use('/home', homeRoute);
 
 app.use((req,res,next) => {

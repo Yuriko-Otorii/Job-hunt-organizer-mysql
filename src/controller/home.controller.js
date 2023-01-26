@@ -11,7 +11,7 @@ exports.getProcessListPage = (req, res, next) => {
 exports.getDetailPage = (req, res, next) => {
     List.getDetailById(req.params.id)
         .then(([data]) => {
-            console.log(data[0].notes);
+            console.log(data[0].next.next[0]);
             res.render("detail", {detailInfo: data[0]})
         })
         .catch((err) => console.error(err.message))
@@ -20,7 +20,6 @@ exports.getDetailPage = (req, res, next) => {
 exports.getEditPage = (req,res, next) => {
     List.getDetailById(req.params.id)
         .then(([data]) => {
-            console.log(data[0].notes);
             res.render("edit", {detailInfo: data[0]})
         })
         .catch((err) => console.error(err.message))
@@ -32,13 +31,20 @@ exports.getNewListPage = (req, res, next) => {
 
 exports.postNewList = (req, res, next) => {
     let listObj = req.body;
+    console.log(listObj);
 
     if(!Array.isArray(listObj.next)){
         listObj.next = [listObj.next]
     }
+    if(listObj.next[0] === undefined){
+        listObj.next[0] = ""
+    }
     
     if(!Array.isArray(listObj.notes)){
         listObj.notes = [listObj.notes]
+    }
+    if(listObj.notes[0] === undefined){
+        listObj.notes[0] = ""
     }
 
     const newList = new List(...Object.values(listObj))
@@ -55,10 +61,17 @@ exports.updateList = (req, res, next) => {
     if(!Array.isArray(updatedObj.next)){
         updatedObj.next = [updatedObj.next]
     }
+    if(updatedObj.next[0] === undefined){
+        updatedObj.next[0] = ""
+    }
     
     if(!Array.isArray(updatedObj.notes)){
         updatedObj.notes = [updatedObj.notes]
     }
+    if(updatedObj.notes[0] === undefined){
+        updatedObj.notes[0] = ""
+    }
+
 
     List.updateList(updatedObj, req.params.id)
         .then(() => {

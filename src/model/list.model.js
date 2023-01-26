@@ -31,7 +31,8 @@ module.exports = class List {
     }
 
     save(){
-        const sql = `INSERT INTO ProcessList (
+        const sql = `
+            INSERT INTO ProcessList (
             company_name,
             location,
             company_email,
@@ -44,7 +45,8 @@ module.exports = class List {
             notes,
             next,
             favorite
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `
 
         const params = [
             this.company_name,

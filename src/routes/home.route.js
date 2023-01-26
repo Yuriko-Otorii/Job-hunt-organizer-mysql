@@ -10,24 +10,23 @@ const {
   updateFavorite
 } = require('../controller/home.controller')
 
-// const {
-//     checkToken
-// } = require('../controller/user.controller')
+const {
+    checkToken
+} = require('../controller/user.controller')
 
-// router.get('/', checkToken)
 
-router.get('/', getProcessListPage)
-router.put('/favupdate', updateFavorite)
+router.get('/', checkToken,  getProcessListPage)
+router.put('/favupdate', checkToken, updateFavorite)
 
-router.get('/newlist', getNewListPage)
-router.post('/createlist', postNewList)
+router.get('/newlist', checkToken, getNewListPage)
+router.post('/createlist', checkToken, postNewList)
 
-router.get("/:id", getDetailPage)
+router.get("/:id", checkToken, getDetailPage)
 
-router.get('/:id/edit', getEditPage)
-router.put('/:id/update', updateList)
+router.get('/:id/edit', checkToken, getEditPage)
+router.put('/:id/update', checkToken, updateList)
 
-router.delete('/:id/delete', deleteList)
+router.delete('/:id/delete', checkToken, deleteList)
 
 
 

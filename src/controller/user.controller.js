@@ -2,7 +2,8 @@ const { login } = require("../model/user.model");
 const User = require("../model/user.model")
 
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { response } = require("express");
 const saltRounds = 10
 
 
@@ -17,7 +18,7 @@ exports.postSignupInfo = (req, res, next) => {
     const newUser = new User(username, email, hassedPassword)
     newUser.signup()
         .then(() => {
-            return res.redirect('/auth/login')
+            return res.redirect('/login')
         })
         .catch((err) => {
             if(err.message.includes("for key 'Users.username'")){
@@ -40,13 +41,15 @@ exports.postLoginInfo = (req, res, next) => {
     login(email)
         .then((passwordFromdb) => {
             if (passwordFromdb[0].length === 0) {
+                res.render('error', {message: "Wrong login information..."})
                 console.log("E-mail doesn't exist...");
             } else {
                 const userObj = passwordFromdb[0][0]
                 bcrypt.compare(password, userObj.password, (err, result) => {
-                    if(err) return res.status(404).send(`<h1>${err}</h1>`)
+                    if(err) return res.status(404).render('404error')
 
                     if(!result){
+                        res.render('error', {message: "Wrong login information..."})
                         console.log('Wrong password...');
                     }else{
                         console.log('Successfully logged in!');
@@ -57,12 +60,14 @@ exports.postLoginInfo = (req, res, next) => {
                         }
                                                 
                         const token = jwt.sign(payload, 'secret', { expiresIn: '1h' })
-                        res.status(200).json({token})
-                        
+                        res.cookie('token', token, { 
+                            httpOnly: true,
+                        });
+                        res.redirect('/home')
+                        // res.redirect('/home')
                         // console.log(payload);
                         // console.log(`Created token>>> ${token}`);
                         
-                        res.redirect('/')
                     }
 
                 })
@@ -73,34 +78,16 @@ exports.postLoginInfo = (req, res, next) => {
 }
 
 exports.checkToken = (req, res, next) => {
-    // const bearToken = req.headers["authorization"];
-    // const bearer = bearToken.split(" ");
-    // const token = bearer[1];
-
-    // jwt.verify(token, "secret", (error, user) => {
-    //   if (error) {
-    //     console.log("Token not found");
-
-    //     return res.sendStatus(403);
-    //   } else {
-    //     console.log("Token found");
-    //     res.json({user});
-    //   }
-    // });
-    // next();
-    console.log(req.headers);
-    const authHeader = req.headers["authorization"];
     try {
-        const token = req.headers.authorization;
+        const tokenStr = req.headers.cookie
+        const token = tokenStr.slice(6)
+    
         const decoded = jwt.verify(token, "secret");
-        console.log(`Decoded>>> ${decoded}`);
         req.jwtPayload = decoded;
         next();
-      } catch (err) {
-        return res.status(401).json({
-          message: 'Not authenticated'
-        });
-      }    
+    } catch (error) {
+        res.render('error', {message: "It seems you are not authorized ..."})
+    }
 }
 
 

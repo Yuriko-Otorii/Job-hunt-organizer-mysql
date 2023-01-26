@@ -64,11 +64,8 @@ exports.postLoginInfo = (req, res, next) => {
                             httpOnly: true,
                         });
                         res.redirect('/home')
-                        
                     }
-
                 })
-
             }
         })
         .catch((err) => console.error(err.message))

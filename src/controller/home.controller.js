@@ -5,7 +5,10 @@ exports.getProcessListPage = (req, res, next) => {
         .then(([data]) => {
             res.render('processList', { list: data })
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.getDetailPage = (req, res, next) => {
@@ -14,7 +17,10 @@ exports.getDetailPage = (req, res, next) => {
             console.log(data[0].next.next[0]);
             res.render("detail", {detailInfo: data[0]})
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.getEditPage = (req,res, next) => {
@@ -22,7 +28,10 @@ exports.getEditPage = (req,res, next) => {
         .then(([data]) => {
             res.render("edit", {detailInfo: data[0]})
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.getNewListPage = (req, res, next) => {
@@ -52,7 +61,10 @@ exports.postNewList = (req, res, next) => {
         .then(() => {
             return res.redirect('/home')
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.updateList = (req, res, next) => {
@@ -77,7 +89,10 @@ exports.updateList = (req, res, next) => {
         .then(() => {
             res.redirect('/home')
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.deleteList = (req, res, next) => {
@@ -85,7 +100,10 @@ exports.deleteList = (req, res, next) => {
         .then(() => {
             return res.redirect('/home')
         })
-        .catch((err) => console.error(err.message))   
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })   
 }
 
 exports.updateFavorite = (req, res, next) => {
@@ -101,7 +119,10 @@ exports.updateFavorite = (req, res, next) => {
             .then(() => {
                 return res.redirect('/home')
             })
-            .catch((err) => console.error(err.message))
+            .catch((err) => {
+                console.error(err.message)
+                res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+            })
     }
 }
 

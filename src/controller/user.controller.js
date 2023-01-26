@@ -22,10 +22,13 @@ exports.postSignupInfo = (req, res, next) => {
         })
         .catch((err) => {
             if(err.message.includes("for key 'Users.username'")){
+                res.render('error', {message: "Username already exists.", btnMessage: "Back to sign up", url: "signup"})
                 console.log("Username already exists.");
             }else if(err.message.includes("for key 'Users.email'")){
+                res.render('error', {message: "E-mail already exists.", btnMessage: "Back to sign up", url: "signup"})
                 console.log("E-mail already exists.");
             }else{
+                res.render('error', {message: "Something wrong. Please try again", btnMessage: "Back to sign up", url: "signup"})
                 console.error(err.message);
             }
         })
@@ -41,7 +44,7 @@ exports.postLoginInfo = (req, res, next) => {
     login(email)
         .then((passwordFromdb) => {
             if (passwordFromdb[0].length === 0) {
-                res.render('error', {message: "Wrong login information..."})
+                res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "login"})
                 console.log("E-mail doesn't exist...");
             } else {
                 const userObj = passwordFromdb[0][0]
@@ -49,7 +52,7 @@ exports.postLoginInfo = (req, res, next) => {
                     if(err) return res.status(404).render('404error')
 
                     if(!result){
-                        res.render('error', {message: "Wrong login information..."})
+                        res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "login"})
                         console.log('Wrong password...');
                     }else{
                         console.log('Successfully logged in!');
@@ -68,7 +71,10 @@ exports.postLoginInfo = (req, res, next) => {
                 })
             }
         })
-        .catch((err) => console.error(err.message))
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
 }
 
 exports.checkToken = (req, res, next) => {
@@ -80,7 +86,7 @@ exports.checkToken = (req, res, next) => {
         req.jwtPayload = decoded;
         next();
     } catch (error) {
-        res.render('error', {message: "It seems you are not authorized ..."})
+        res.render('error', {message: "It seems you are not authorized ...", btnMessage: "Back to login", url: "login"})
     }
 }
 

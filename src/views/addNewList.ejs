@@ -95,7 +95,7 @@
               </div>
             </div>
           </div>
-          <button type="button" onclick="addNotesRow()" class="rounded-lg px-3 py-1 border mt-2 border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-gray-100 duration-300 rounded-full"><i class="fa-solid fa-plus mr-2"></i>Add a row</button>
+          <button type="button" onclick="addNotesRow()" class="submitBtn rounded-lg px-3 py-1 border mt-2 border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-gray-100 duration-300 rounded-full"><i class="fa-solid fa-plus mr-2"></i>Add a row</button>
         </div>
       </div>
     </div>
@@ -144,6 +144,38 @@
       return false
     }
   }
+
+  const allInputs = document.querySelectorAll("input")
+  const submitBtn = document.querySelector(".submitBtn")
+  let checkValue = false
+  const pageMoveAlert = (e) => {
+    const messsage = "Would you like to back to home? (Changes will be discarded.)"
+    e.returnValue = message
+  }
+
+  window.onbeforeunload = pageMoveAlert
+  // window.addEventListener('beforeunload', pageMoveAlert)
+
+  const displayAlert = () => {
+    if(!checkValue){
+      window.addEventListener('beforeunload', pageMoveAlert)
+      for(let i = 0; i < allInputs.length; i++){
+        allInputs[i].removeEventListener('input', displayAlert)
+        allInputs[i].removeEventListener('change', displayAlert)
+      }
+      checkValue = true     
+    }
+  }
+
+  for(let i = 0; i < allInputs.length; i++){
+    allInputs[i].addEventListener('input', displayAlert)
+    allInputs[i].addEventListener('change', displayAlert)
+  }
+
+  submitBtn.addEventListener('click', () => {
+    window.removeEventListener('beforeunload', pageMoveAlert)
+  })  
+
 </script>
 
 <%- include("partials/_footer") -%>

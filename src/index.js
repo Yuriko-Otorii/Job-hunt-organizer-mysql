@@ -9,7 +9,7 @@ const app = express()
 
 app.use(express.json())
 app.set('view engine', 'ejs');
-app.set('views', 'src/views');
+app.set('views',  path.join(__dirname, "views"));
 app.use(logger('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());

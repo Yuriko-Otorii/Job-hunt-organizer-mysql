@@ -1,7 +1,14 @@
 const List = require("../model/list.model")
 
-exports.getProcessListPage = (req, res, next) => {
-    List.fetchList()
+const jwt = require("jsonwebtoken");
+
+exports.getCompanyListPage = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    List.fetchList(req.jwtPayload.user_id)
         .then(([data]) => {
             res.render('processList', { list: data })
         })
@@ -12,7 +19,12 @@ exports.getProcessListPage = (req, res, next) => {
 }
 
 exports.getDetailPage = (req, res, next) => {
-    List.getDetailById(req.params.id)
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    List.getDetailById(req.params.id, req.jwtPayload.user_id)
         .then(([data]) => {
             console.log(data[0].next.next[0]);
             res.render("detail", {detailInfo: data[0]})
@@ -24,7 +36,12 @@ exports.getDetailPage = (req, res, next) => {
 }
 
 exports.getEditPage = (req,res, next) => {
-    List.getDetailById(req.params.id)
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    List.getDetailById(req.params.id, req.jwtPayload.user_id)
         .then(([data]) => {
             res.render("edit", {detailInfo: data[0]})
         })
@@ -39,8 +56,14 @@ exports.getNewListPage = (req, res, next) => {
 }
 
 exports.postNewList = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
     let listObj = req.body;
-    console.log(listObj);
+    listObj.list_user_id = req.jwtPayload.user_id
 
     if(!Array.isArray(listObj.next)){
         listObj.next = [listObj.next]
@@ -68,7 +91,13 @@ exports.postNewList = (req, res, next) => {
 }
 
 exports.updateList = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
     let updatedObj = req.body;
+    updatedObj.list_user_id = req.jwtPayload.user_id
 
     if(!Array.isArray(updatedObj.next)){
         updatedObj.next = [updatedObj.next]
@@ -96,7 +125,12 @@ exports.updateList = (req, res, next) => {
 }
 
 exports.deleteList = (req, res, next) => {
-    List.deleteList(req.params.id)
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    List.deleteList(req.params.id, req.jwtPayload.user_id)
         .then(() => {
             return res.redirect('/home')
         })
@@ -107,15 +141,20 @@ exports.deleteList = (req, res, next) => {
 }
 
 exports.updateFavorite = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
     const { favorite, list_id } = req.body
     if(+favorite === 0){
-        List.updateFavorite(true, list_id)
+        List.updateFavorite(true, list_id, req.jwtPayload.user_id)
             .then(() => {
                 return res.redirect('/home')
             })
             .catch((err) => console.error(err.message))
     }else{
-        List.updateFavorite(false, list_id)
+        List.updateFavorite(false, list_id, req.jwtPayload.user_id)
             .then(() => {
                 return res.redirect('/home')
             })

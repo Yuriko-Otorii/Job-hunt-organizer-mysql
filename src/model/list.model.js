@@ -1,21 +1,7 @@
 const db = require("../util/mysql");
 
-const arg = {
-    company_name: "",
-    location: null,
-    company_email: "",
-    company_phone: null,
-    company_website: null,
-    position: "",
-    job_type: "",
-    status: "",
-    date_applied: "",
-    notes: null,
-    next: null,
-}
-
 module.exports = class List {
-    constructor(status, company_name, location=null, company_email, company_phone=null, company_website=null, date_applied, job_type, position, next=null, notes=null, favorite=false ){
+    constructor(status, company_name, location=null, company_email, company_phone=null, company_website=null, date_applied, job_type, position, next=null, notes=null, list_user_id, favorite=false){
         this.company_name = company_name;
         this.location = location;
         this.company_email = company_email;
@@ -27,12 +13,13 @@ module.exports = class List {
         this.date_applied = date_applied;
         this.notes = notes;
         this.next = next;
+        this.list_user_id = list_user_id;
         this.favorite = favorite;
     }
 
     save(){
         const sql = `
-            INSERT INTO ProcessList (
+            INSERT INTO companyList (
             company_name,
             location,
             company_email,
@@ -44,8 +31,9 @@ module.exports = class List {
             date_applied,
             notes,
             next,
-            favorite
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            favorite,
+            list_user_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `
 
         const params = [
@@ -60,25 +48,26 @@ module.exports = class List {
             this.date_applied,
             {"notes": this.notes},
             {"next": this.next},
-            this.favorite
+            this.favorite,
+            this.list_user_id
         ]
 
         return db.execute(sql, params)
     }
 
-    static fetchList = () => {
-        const sql = `SELECT * FROM ProcessList`
-        return db.query(sql)
+    static fetchList = (id) => {
+        const sql = `SELECT * FROM companyList WHERE list_user_id = ?`
+        return db.execute(sql, [id])
     }
 
-    static getDetailById = (id) => {
-        const sql = `SELECT * FROM ProcessList WHERE list_id = ?`
-        return db.execute(sql, [id])
+    static getDetailById = (list_id, list_user_id) => {
+        const sql = `SELECT * FROM companyList WHERE list_id = ? AND list_user_id = ?`
+        return db.execute(sql, [list_id, list_user_id])
     }
 
     static updateList = (data, id) => {
         const sql = `
-            UPDATE ProcessList SET 
+            UPDATE companyList SET 
             status = ?,
             company_name = ?, 
             location = ?, 
@@ -90,7 +79,7 @@ module.exports = class List {
             position = ?,
             next = ?,
             notes = ?
-            WHERE (list_id = ?)
+            WHERE (list_id = ? AND list_user_id = ?)
         `
         const params = [
             data.status,
@@ -104,22 +93,21 @@ module.exports = class List {
             data.position,
             {next: data.next},
             {notes: data.notes},
-            id
+            id,
+            data.list_user_id
         ]
         
         return db.execute(sql, params)
     }
 
-    static updateFavorite = (data, id) => {
-        const sql = `UPDATE ProcessList SET favorite = ? WHERE list_id = ?`
-        const params = [data, +id]
+    static updateFavorite = (data, list_id, list_user_id) => {
+        const sql = `UPDATE companyList SET favorite = ? WHERE list_id = ? AND list_user_id = ?`
+        const params = [data, +list_id, +list_user_id]
         return db.execute(sql, params)
     }
 
-    static deleteList = (id) => {
-        const sql = `DELETE FROM ProcessList WHERE list_id = ?`
-        return db.execute(sql, [id])
+    static deleteList = (list_id, list_user_id) => {
+        const sql = `DELETE FROM companyList WHERE list_id = ? AND list_user_id = ?`
+        return db.execute(sql, [list_id, list_user_id])
     }
-
-
 }

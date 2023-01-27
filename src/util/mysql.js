@@ -8,64 +8,65 @@ const pool = mysql.createPool({
     port: process.env.MYSQL_PORT
 })
 
-const usersTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='Users'`;
-pool.query(usersTableSql, (err, data) => {
+
+const userInfoTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='userInfo'`;
+pool.query(userInfoTableSql, (err, data) => {
   if (err) {
     return console.error(err.message);
   }
 
   if (data.length === 0) {
-    console.log("Table 'Users' does not exist");
-    // createUsersTable();
+    console.log("Table 'userInfo' does not exist");
+    createUserInfoTable();
   } else {
-    console.log("Table 'Users' exists");
-    // createUsersTable()
+    console.log("Table 'userInfo' exists");
+    // createUserInfoTable()
   }
 });
 
-const createUsersTable = () => {
-    pool.query(`DROP TABLE IF EXISTS Users`);  
+const createUserInfoTable = () => {
+    pool.query(`DROP TABLE IF EXISTS userInfo`);  
 
     pool.query(
-      `CREATE TABLE Users(
-          user_id INT PRIMARY KEY AUTO_INCREMENT,
+      `CREATE TABLE userInfo(
+          user_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
           username VARCHAR(50) NOT NULL UNIQUE,
           email VARCHAR(50) NOT NULL UNIQUE,
           password VARCHAR(100) NOT NULL
-      )`,
+      ) ENGINE=InnoDB;`,
 
       (err) => {
           if (err) {
               return console.error(err.message);
           }
-          console.log("Successful creation of the 'Users' table");
+          console.log("Successful creation of the 'userInfo' table");
       }
     ); 
 }
 
 
-
-const processListTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='ProcessList'`;
-pool.query(processListTableSql, (err, data) => {
+const companyListTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='companyList'`;
+pool.query(companyListTableSql, (err, data) => {
   if (err) {
     return console.error(err.message);
   }
 
   if (data.length === 0) {
-    console.log("Table 'ProcessList' does not exist");
-    createprocessListTable()
+    console.log("Table 'companyList' does not exist");
+    // createCompanyListTable()
   } else {
-    console.log("Table 'ProcessList' exists");
-    // createprocessListTable()
+    console.log("Table 'companyList' exists");
+    // createCompanyListTable()
   }
 });
 
-const createprocessListTable = () => {
-  pool.query(`DROP TABLE IF EXISTS ProcessList`);  
+const createCompanyListTable = () => {
+  pool.query(`DROP TABLE IF EXISTS companyList`);  
 
   pool.query(
-    `CREATE TABLE ProcessList(
+    `CREATE TABLE companyList(
       list_id INT PRIMARY KEY AUTO_INCREMENT,
+      list_user_id INT NOT NULL,
       company_name VARCHAR(50) NOT NULL,
       location VARCHAR(50),
       company_email VARCHAR(50) NOT NULL UNIQUE,
@@ -77,14 +78,15 @@ const createprocessListTable = () => {
       date_applied VARCHAR(50) NOT NULL,
       next json,
       notes json,
-      favorite BOOLEAN NOT NULL
-    )`,
+      favorite BOOLEAN NOT NULL,
+      FOREIGN KEY (list_user_id) REFERENCES userInfo (user_id)
+    ) ENGINE=InnoDB;`,
 
     (err) => {
         if (err) {
             return console.error(err.message);
         }
-        console.log("Successful creation of the 'ProcessList' table");
+        console.log("Successful creation of the 'companyList' table");
     }
   )
 }

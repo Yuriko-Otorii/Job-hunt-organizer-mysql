@@ -1,13 +1,13 @@
 const router = require('express').Router()
 const {
-  getProcessListPage,
   getDetailPage,
   getNewListPage,
   postNewList,
   getEditPage,
   deleteList,
   updateList,
-  updateFavorite
+  updateFavorite,
+  getCompanyListPage,
 } = require('../controller/home.controller')
 
 const {
@@ -15,7 +15,7 @@ const {
 } = require('../controller/user.controller')
 
 
-router.get('/', checkToken,  getProcessListPage)
+router.get('/', checkToken, getCompanyListPage)
 router.put('/favupdate', checkToken, updateFavorite)
 
 router.get('/newlist', checkToken, getNewListPage)

@@ -35,7 +35,6 @@
               <%= list.filter(item => item.status === "declined").length %>
             </span>
           </button>
-
           <button type="button" onclick="handleStarFilter()" class="group inline-flex items-center px-4 py-2.5 mb-2 text-sm font-medium text-center border border-yellow-300 text-yellow-300 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-yellow-300 hover:bg-yellow-300 hover:text-white">
             <i class="fa-regular fa-star"></i>
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-yellow-300 group-hover:text-white">
@@ -43,10 +42,13 @@
             </span>
           </button>
         </div>
-        <div>
-          <a href="/home/newlist">
+        <div class="flex">
+          <a href="/home/newlist" class="mr-2">
             <button class="rounded-lg px-4 py-2 bg-blue-500 text-white text-sm hover:bg-blue-600 duration-300">Add new list</button>
           </a>
+          <form action="/deleteCookie" method="POST">
+            <button class="rounded-lg px-4 py-1 mr-3 border border-gray-500 text-gray-500 hover:bg-gray-600 hover:text-gray-100 duration-300">Logout</button>
+          </form>
         </div>
         
       </div>
@@ -134,7 +136,7 @@
                       <%= eachNext %><br>
                     <% }) %>
                   </td>
-                  <td id="status_td" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-sm">
+                  <td id="status_td" class="whitespace-nowrap	px-5 py-5 border-b border-gray-200 bg-white text-sm text-sm">
                     <% if(item.status === "noResponse"){ %>
                       <span
                       class="relative inline-block px-3 py-1 font-semibold text-purple-900 leading-tight"
@@ -188,7 +190,7 @@
                   <a href="/home/<%= item.list_id %>">
                     <button
                       type="button"
-                      class="inline-block text-gray-500 hover:text-gray-700"
+                      class="inline-block text-gray-500 hover:text-gray-900 hover:bg-gray-100 hover:rounded-full"
                     >
                       <svg
                         class="inline-block h-6 w-6 fill-current"

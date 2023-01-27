@@ -69,7 +69,7 @@ const createCompanyListTable = () => {
       list_user_id INT NOT NULL,
       company_name VARCHAR(50) NOT NULL,
       location VARCHAR(50),
-      company_email VARCHAR(50) NOT NULL UNIQUE,
+      company_email VARCHAR(50) NOT NULL,
       company_phone VARCHAR(50),
       company_website VARCHAR(100),
       position VARCHAR(50) NOT NULL,

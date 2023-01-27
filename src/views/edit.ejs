@@ -1,6 +1,6 @@
 <%- include("partials/_header") -%>
 <div class="container mx-auto px-8 sm:px-8">
-  <button type="button" onclick="pageBackConfirm()"
+  <button type="button" onclick="pageBackConfirm()" 
     ><i class="fa-solid fa-arrow-left mr-2 mt-8"></i>Back to detail</button
   >
   <form action="/home/<%= detailInfo.list_id %>/update?_method=PUT" Method="POST" class="w-full">

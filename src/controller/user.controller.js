@@ -1,11 +1,9 @@
-const { login, loginTest } = require("../model/user.model");
+const { login } = require("../model/user.model");
 const User = require("../model/user.model")
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const { response } = require("express");
 const saltRounds = 10
-
 
 exports.getSignupPage = (req, res, next) => {
     res.render('signup')
@@ -94,4 +92,20 @@ exports.postDeleteCookie = (req, res, next) => {
     res.redirect('/login')
 }
 
+exports.postUpdateUsername = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    User.updateUsername(req.body.username, req.jwtPayload.user_id)
+        .then(() => {
+            return res.redirect('/home/mypage')
+        })
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to my page", url: "home/mypage"})
+        })
+
+}
 

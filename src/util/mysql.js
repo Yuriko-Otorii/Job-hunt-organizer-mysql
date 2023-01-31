@@ -91,6 +91,88 @@ const createCompanyListTable = () => {
   )
 }
 
+const shareStatusTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='shareStatus'`;
+pool.query(shareStatusTableSql, (err, data) => {
+  if (err) {
+    return console.error(err.message);
+  }
+
+  if (data.length === 0) {
+    console.log("Table 'shareStatus' does not exist");
+    // createShareStatusTable();
+  } else {
+    console.log("Table 'shareStatus' exists");
+    // createShareStatusTable()
+  }
+});
+
+const createShareStatusTable = () => {
+    pool.query(`DROP TABLE IF EXISTS shareStatus`);  
+
+    pool.query(
+      `CREATE TABLE shareStatus(
+          post_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+          post_user_id INT NOT NULL,
+          total_applied VARCHAR(10) NOT NULL,
+          total_onprocess VARCHAR(10) NOT NULL,
+          total_noresponse VARCHAR(10) NOT NULL,
+          total_offered VARCHAR(10) NOT NULL,
+          total_declined VARCHAR(10) NOT NULL,
+          today_applied VARCHAR(10) NOT NULL,
+          today_onprocess VARCHAR(10) NOT NULL,
+          today_noresponse VARCHAR(10) NOT NULL,
+          today_offered VARCHAR(10) NOT NULL,
+          today_declined VARCHAR(10) NOT NULL,
+          post_message VARCHAR(70),
+          post_create_date VARCHAR(50) NOT NULL,
+          FOREIGN KEY (post_user_id) REFERENCES userInfo (user_id)
+      ) ENGINE=InnoDB;`,
+
+      (err) => {
+          if (err) {
+              return console.error(err.message);
+          }
+          console.log("Successful creation of the 'shareStatus' table");
+      }
+    ); 
+}
+
+const likePostTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='likePost'`;
+pool.query(likePostTableSql, (err, data) => {
+  if (err) {
+    return console.error(err.message);
+  }
+
+  if (data.length === 0) {
+    console.log("Table 'likePost' does not exist");
+    // createlikePostTable();
+  } else {
+    console.log("Table 'likePost' exists");
+    // createlikePostTable()
+  }
+});
+
+const createlikePostTable = () => {
+    pool.query(`DROP TABLE IF EXISTS likePost`);  
+
+    pool.query(
+      `CREATE TABLE likePost(
+          likePost_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+          likePost_user_id INT NOT NULL,
+          likePost_post_id INT NOT NULL,
+          FOREIGN KEY (likePost_user_id) REFERENCES userInfo (user_id),
+          FOREIGN KEY (likePost_user_id) REFERENCES shareStatus (post_id)
+      ) ENGINE=InnoDB;`,
+
+      (err) => {
+          if (err) {
+              return console.error(err.message);
+          }
+          console.log("Successful creation of the 'likePost' table");
+      }
+    ); 
+}
+
 
 
 

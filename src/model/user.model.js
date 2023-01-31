@@ -18,4 +18,11 @@ module.exports = class User {
         const sql = `SELECT * FROM userInfo WHERE email = ?`
         return db.execute(sql, [email])
     }
+
+    static updateUsername(data, user_id){
+        const sql = `UPDATE userInfo SET username = ? WHERE user_id = ?`
+        const params = [data, user_id]
+        return db.execute(sql, params)
+    }
+
 }

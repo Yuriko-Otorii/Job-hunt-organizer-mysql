@@ -21,13 +21,15 @@ const dbConnection = require("./util/mysql");
 //import routes
 const authRoute = require('./routes/auth.route');
 const homeRoute = require('./routes/home.route');
+const sharepageRoute = require('./routes/sharePage.route');
 
 //routes
 app.use('/', authRoute);
 app.use('/home', homeRoute);
+app.use('/sharepage', sharepageRoute);
 
-app.use((req,res,next) => {
-    res.status(404).render('404error')
+app.use((req, res, next) => {
+    res.status(404).render('error', {message: "Request page is not founded...", btnMessage: "Back to home", url: "home"})
 })
 
 

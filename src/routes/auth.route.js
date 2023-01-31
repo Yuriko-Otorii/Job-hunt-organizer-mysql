@@ -5,7 +5,7 @@ const {
   getLoginPage,
   postSignupInfo,
   postLoginInfo,
-  postDeleteCookie
+  postDeleteCookie,
 } = require('../controller/user.controller')
 
 router.get('/signup', getSignupPage)

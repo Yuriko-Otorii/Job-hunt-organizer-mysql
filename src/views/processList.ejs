@@ -46,13 +46,13 @@
           <a href="/home/newlist" class="mr-2">
             <button class="rounded-lg px-4 py-2 bg-blue-500 text-white text-sm hover:bg-blue-600 duration-300">Add new list</button>
           </a>
-          <form action="/deleteCookie" method="POST">
-            <button class="rounded-lg px-4 py-1 mr-3 border border-gray-500 text-gray-500 hover:bg-gray-600 hover:text-gray-100 duration-300">Logout</button>
-          </form>
+          <a href="/home/mypage" class="mr-2">
+            <button class="rounded-lg px-4 py-1 mr-3 border border-blue-500 text-blue-500 hover:bg-blue-600 hover:text-blue-100 duration-300">My Page</button>
+          </a>
         </div>
         
       </div>
-      <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+      <div class="inline-block min-w-full shadow-md rounded-lg">
         <table class="min-w-full leading-normal">
           <thead>
             <tr>
@@ -187,9 +187,11 @@
                   <td
                     class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right text-sm"
                   >
-                  <a href="/home/<%= item.list_id %>">
+                  <div class="group inline-block relative">
                     <button
                       type="button"
+                      id="dropdownHoverButton"
+                      data-dropdown-toggle="dropdownHover"
                       class="inline-block text-gray-500 hover:text-gray-900 hover:bg-gray-100 hover:rounded-full"
                     >
                       <svg
@@ -201,7 +203,28 @@
                         />
                       </svg>
                     </button>
-                  </a>
+                    <ul class="absolute -top-10 -left-20 z-100 hidden w-fit text-gray-700 pt-1 group-hover:block">
+                      <li>
+                        <a
+                          class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
+                          href="/home/<%= item.list_id %>"
+                          >Detail</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
+                          href="/home/<%= item.list_id %>/edit"
+                          >Edit</a
+                        >
+                      </li>
+                      <li>
+                        <form onSubmit="return deleteConfirm('<%= item.list_id %>')" action="/home/<%= item.list_id %>/delete?_method=DELETE" method="POST">
+                          <button type="submit" class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap">Delete</button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
                   </td>
                 </tr>
               <% }) %>
@@ -249,6 +272,15 @@
           break;
         }
       }
+    }
+  }
+
+  const deleteConfirm = (id) => {
+    const result = window.confirm("Would you like to delete this list permanently?")
+    if(result){
+      window.location.href(`/home/${id}/delete?_method=DELETE`)  
+    }else{
+      return false
     }
   }
 

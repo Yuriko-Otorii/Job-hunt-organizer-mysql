@@ -64,6 +64,11 @@ module.exports = class List {
         const sql = `SELECT * FROM companyList WHERE list_id = ? AND list_user_id = ?`
         return db.execute(sql, [list_id, list_user_id])
     }
+    
+    static getUserAllListById = (user_id) => {
+        const sql = `SELECT * FROM companyList WHERE list_user_id = ?`
+        return db.execute(sql, [user_id])
+    }
 
     static updateList = (data, id) => {
         const sql = `
@@ -110,4 +115,10 @@ module.exports = class List {
         const sql = `DELETE FROM companyList WHERE list_id = ? AND list_user_id = ?`
         return db.execute(sql, [list_id, list_user_id])
     }
+
+    static getUserInfoAndList = (user_id) => {
+        const sql = `SELECT * FROM companyList INNER JOIN userInfo ON companyList.list_user_id = user_id`
+        return db.execute(sql, [user_id])
+    }
+   
 }

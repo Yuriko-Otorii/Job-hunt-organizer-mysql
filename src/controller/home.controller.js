@@ -1,4 +1,5 @@
 const List = require("../model/list.model")
+const StatusPost = require("../model/statusPost.model");
 
 const jwt = require("jsonwebtoken");
 
@@ -24,7 +25,7 @@ exports.getDetailPage = (req, res, next) => {
     const decoded = jwt.verify(token, "secret");
     req.jwtPayload = decoded;
 
-    List.getDetailById(req.params.id, req.jwtPayload.user_id)
+    List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(([data]) => {
             console.log(data[0].next.next[0]);
             res.render("detail", {detailInfo: data[0]})
@@ -41,7 +42,7 @@ exports.getEditPage = (req,res, next) => {
     const decoded = jwt.verify(token, "secret");
     req.jwtPayload = decoded;
 
-    List.getDetailById(req.params.id, req.jwtPayload.user_id)
+    List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(([data]) => {
             res.render("edit", {detailInfo: data[0]})
         })
@@ -114,7 +115,7 @@ exports.updateList = (req, res, next) => {
     }
 
 
-    List.updateList(updatedObj, req.params.id)
+    List.updateList(updatedObj, req.params.listId)
         .then(() => {
             res.redirect('/home')
         })
@@ -130,7 +131,7 @@ exports.deleteList = (req, res, next) => {
     const decoded = jwt.verify(token, "secret");
     req.jwtPayload = decoded;
 
-    List.deleteList(req.params.id, req.jwtPayload.user_id)
+    List.deleteList(req.params.listId, req.jwtPayload.user_id)
         .then(() => {
             return res.redirect('/home')
         })
@@ -165,4 +166,101 @@ exports.updateFavorite = (req, res, next) => {
     }
 }
 
+exports.getMyPage = (req, res, next) => {
+    getUserAllList("myPage", "Back to home", "home", req, res) 
+}
 
+
+exports.getCreatePostPage = (req, res, next) => {
+    getUserAllList("postStatus", "Back to my page", "/home/mypage", req, res) 
+}
+
+exports.getEditShareStatusPage = (req, res, next) => {
+    getUserAllList("editStatus", "Back to share page", "/sharepage", req, res) 
+
+}
+
+
+const getUserAllList = (page, message, url, req, res) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
+
+    const totalData = {
+        apply: [],
+        onProcess:  [],
+        noResponse: [],
+        offered: [],
+        declined: []
+    }
+    const todayData = {
+        apply: [],
+        onProcess:  [],
+        noResponse: [],
+        offered: [],
+        declined: []
+    }
+
+    List.getUserInfoAndList(req.jwtPayload.user_id)
+        .then(([data]) => {
+            const userDatalist = data.filter((item) => item.list_user_id === req.jwtPayload.user_id)
+            const {username} = userDatalist[0]
+            const today = new Date()
+            let statusPostObj;
+
+
+            userDatalist.forEach(elem => {
+                const dateApplied = new Date(elem.date_applied)
+                totalData.apply.push(elem.date_applied)
+                //Check total number
+                if(elem.status === "onProcess"){
+                    totalData.onProcess.push(dateApplied)
+                }else if(elem.status === "noResponse"){
+                    totalData.noResponse.push(dateApplied)
+                
+                }else if(elem.status === "offered"){
+                    totalData.offered.push(dateApplied)
+                
+                }else if(elem.status === "declined"){
+                    totalData.declined.push(dateApplied)
+                }
+
+                //Check today's number
+                if(today.getDate() === dateApplied.getDate()){
+                    todayData.apply.push(dateApplied)
+                    if(elem.status === "onProcess"){
+                        todayData.onProcess.push(dateApplied)
+                    }else if(elem.status === "noResponse"){
+                        todayData.noResponse.push(dateApplied)
+                    
+                    }else if(elem.status === "offered"){
+                        todayData.offered.push(dateApplied)
+                    
+                    }else if(elem.status === "declined"){
+                        todayData.declined.push(dateApplied)
+                    }
+                }
+            });
+
+            
+            
+            StatusPost.fetchSharePostById(req.params.postId)
+                .then(([statusPostData]) => {
+                    // console.log(statusPostData);
+                    statusPostObj = statusPostData
+                    
+                })
+                .catch((err) => {
+                    console.error(err.message)
+                    res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
+                });
+                
+            console.log(statusPostObj);
+            return res.render(page, {username, todayData, totalData, postId: req.params.postId, statusPostObj})
+        })
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
+        })  
+}

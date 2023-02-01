@@ -68,7 +68,6 @@ module.exports = class StatusPost {
     static updateSharePost(data, post_id, post_create_date){
         const sql = `
             UPDATE shareStatus SET 
-                post_user_id = ?,
                 post_message = ?,
                 total_applied = ?,
                 total_onprocess = ?,
@@ -80,11 +79,10 @@ module.exports = class StatusPost {
                 today_noresponse = ?,
                 today_offered = ?,
                 today_declined = ?,
-                post_create_date = ?,
+                post_user_id = ?
             WHERE (post_id = ? AND post_user_id = ?)
         `
         const params = [
-            data.post_id,
             data.post_message,
             data.total_applied,
             data.total_onprocess,
@@ -97,10 +95,15 @@ module.exports = class StatusPost {
             data.today_offered,
             data.today_declined,
             data.post_user_id,
-            data.post_create_date
+            data.post_id,
+            data.post_user_id,
         ]
         return db.execute(sql, params)
     }
 
+    static deleteSharePost(post_id, post_user_id){
+        const sql = `DELETE FROM shareStatus WHERE post_id = ? AND post_user_id = ?`
+        return db.execute(sql, [post_id, post_user_id])
+    }
     
 }

@@ -14,7 +14,7 @@
                 <div class="flex flex-col mx-16">
                     <div class="flex items-end">
                         <h1 class="font-bold text-xl"><%= username %></h1>
-                        <input type="text" name="postMessage" placeholder="Write your thoughts..." class="messageInput w-full ml-2 py-3 px-4 bg-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-gray-800 border border-gray-800">
+                        <input type="text" name="post_message" placeholder="Write your thoughts..." class="messageInput w-full ml-2 py-3 px-4 bg-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-gray-800 border border-gray-800">
                     </div>
                     <table class="my-6 px-5 border border-gray-900 rounded-lg border-separate">
                         <thead>
@@ -32,46 +32,46 @@
                                 <td class="pl-5 py-3"><p class="text-lg w-20 font-bold">Total: </p></td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= totalData.apply.length %></p>
-                                    <input type="hidden" name="totalApplied" value="<%= totalData.apply.length %>">
+                                    <input type="hidden" name="total_applied" value="<%= totalData.apply.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= totalData.onProcess.length %></p>
-                                    <input type="hidden" name="totalOnProcess" value="<%= totalData.onProcess.length %>">
+                                    <input type="hidden" name="total_onprocess" value="<%= totalData.onProcess.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= totalData.noResponse.length %></p>
-                                    <input type="hidden" name="totalNoResponse" value="<%= totalData.noResponse.length %>">
+                                    <input type="hidden" name="total_noresponse" value="<%= totalData.noResponse.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= totalData.offered.length %></p>
-                                    <input type="hidden" name="totalOffered" value="<%= totalData.offered.length %>">
+                                    <input type="hidden" name="total_offered" value="<%= totalData.offered.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= totalData.declined.length %></p>
-                                    <input type="hidden" name="totalDeclined" value="<%= totalData.declined.length %>">
+                                    <input type="hidden" name="total_declined" value="<%= totalData.declined.length %>">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="pl-5 py-3"><p class="text-lg w-20 font-bold">Today: </p></td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= todayData.apply.length %></p>
-                                    <input type="hidden" name="todayApplied" value="<%= todayData.apply.length %>">
+                                    <input type="hidden" name="today_applied" value="<%= todayData.apply.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= todayData.onProcess.length %></p>
-                                    <input type="hidden" name="todayOnProcess" value="<%= todayData.onProcess.length %>">
+                                    <input type="hidden" name="today_onprocess" value="<%= todayData.onProcess.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= todayData.noResponse.length %></p>
-                                    <input type="hidden" name="todayNoResponse" value="<%= todayData.noResponse.length %>">
+                                    <input type="hidden" name="today_noresponse" value="<%= todayData.noResponse.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= todayData.offered.length %></p>
-                                    <input type="hidden" name="todayOffered" value="<%= todayData.offered.length %>">
+                                    <input type="hidden" name="today_offered" value="<%= todayData.offered.length %>">
                                 </td>
                                 <td class="py-3">
                                     <p class="font-bold text-gray-700 text-xl text-center"><%= todayData.declined.length %></p>
-                                    <input type="hidden" name="todayDeclined" value="<%= todayData.declined.length %>">
+                                    <input type="hidden" name="today_declined" value="<%= todayData.declined.length %>">
                                 </td>
                             </tr>
                         </tbody>

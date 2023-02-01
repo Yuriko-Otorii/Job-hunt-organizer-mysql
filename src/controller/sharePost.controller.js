@@ -69,19 +69,34 @@ exports.updateShareStatus = (req, res, next) => {
     req.jwtPayload = decoded;
 
     const updatedObj = req.body
+    updatedObj.post_user_id = String(req.jwtPayload.user_id)
+    updatedObj.post_id = req.params.postId
     console.log(updatedObj);
 
+    StatusPost.updateSharePost(updatedObj)
+        .then(() => {
+            return res.redirect('/sharepage')
+        })
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to my page", url: "/home/mypage"})
+        })
+}
 
+exports.deleteSharePost = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
 
-    // StatusPost.updateSharePost(updatedObj)
-    //     .then(() => {
-    //         return res.redirect('/sharepage')
-    //     })
-    //     .catch((err) => {
-    //         console.error(err.message)
-    //         res.render('error', {message: "Something wrong in server.", btnMessage: "Back to my page", url: "/home/mypage"})
-    //     })
-
+    StatusPost.deleteSharePost(req.params.postId, req.jwtPayload.user_id)
+        .then(() => {
+            return res.redirect('/sharepage')
+        })
+        .catch((err) => {
+            console.error(err.message)
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to share page", url: "/sharepage"})
+        }) 
 }
 
 

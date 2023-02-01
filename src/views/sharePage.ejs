@@ -24,7 +24,7 @@
                             <h1 class="font-bold text-xl mr-3"><%= item.username %></h1>
                             <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"><%= item.post_message %></div>
                         </div>
-                        <table class="my-6 mr-14 px-5 w-fit border border-gray-600 rounded-lg border-separate">
+                        <table class="my-6 mr-4 px-5 w-fit border border-gray-600 rounded-lg border-separate">
                             <thead>
                                 <tr>
                                     <th class="py-3"></th>
@@ -82,9 +82,9 @@
                                     >
                                   </li>
                                   <li>
-                                    <!-- <form onSubmit="return deleteConfirm('<%= item.list_id %>')" action="/home/<%= item.list_id %>/delete?_method=DELETE" method="POST"> -->
+                                    <form onSubmit="return deleteConfirm('<%= item.post_id %>')" action="/sharepage/<%= item.post_id %>/delete?_method=DELETE" method="POST">
                                       <button type="submit" class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-7 block whitespace-no-wrap">Delete</button>
-                                    <!-- </form> -->
+                                    </form>
                                   </li>
                                 </ul>
                             </div>
@@ -117,6 +117,17 @@
       </div>
     </div>
 </div>
+
+<script>
+    const deleteConfirm = (id) => {
+      const result = window.confirm("Would you like to delete this post permanently?")
+      if(result){
+        window.location.href('/sharepage/id/delete?_method=DELETE')  
+      }else{
+        return false
+      }
+    }
+  </script>
 
 
 <%- include("partials/_footer") -%>

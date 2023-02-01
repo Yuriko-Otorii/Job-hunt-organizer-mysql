@@ -203,24 +203,24 @@
                         />
                       </svg>
                     </button>
-                    <ul class="absolute -top-10 -left-20 z-100 hidden w-fit text-gray-700 pt-1 group-hover:block">
+                    <ul class="absolute -top-20 -left-20 z-100 hidden w-fit text-gray-700 pt-1 group-hover:block">
                       <li>
                         <a
-                          class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
+                          class="text-left rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
                           href="/home/<%= item.list_id %>"
                           >Detail</a
                         >
                       </li>
                       <li>
                         <a
-                          class="bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
+                          class="text-left bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap"
                           href="/home/<%= item.list_id %>/edit"
                           >Edit</a
                         >
                       </li>
                       <li>
                         <form onSubmit="return deleteConfirm('<%= item.list_id %>')" action="/home/<%= item.list_id %>/delete?_method=DELETE" method="POST">
-                          <button type="submit" class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap">Delete</button>
+                          <button type="submit" class="text-left rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-5 block whitespace-no-wrap">Delete</button>
                         </form>
                       </li>
                     </ul>

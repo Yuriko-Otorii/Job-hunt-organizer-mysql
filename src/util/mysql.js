@@ -173,6 +173,44 @@ const createlikePostTable = () => {
     ); 
 }
 
+const commentPostTableSql = `SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='railway' AND TABLE_NAME='comment'`;
+pool.query(commentPostTableSql, (err, data) => {
+  if (err) {
+    return console.error(err.message);
+  }
+
+  if (data.length === 0) {
+    console.log("Table 'comment' does not exist");
+    // createCommentTable();
+  } else {
+    console.log("Table 'comment' exists");
+    // createCommentTable()
+  }
+});
+
+const createCommentTable = () => {
+    pool.query(`DROP TABLE IF EXISTS comment`);  
+
+    pool.query(
+      `CREATE TABLE comment(
+          comment_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+          comment_user_id INT NOT NULL,
+          comment_post_id INT NOT NULL,
+          comment VARCHAR(100) NOT NULL,
+          comment_date VARCHAR(50) NOT NULL,
+          FOREIGN KEY (comment_user_id) REFERENCES userInfo (user_id),
+          FOREIGN KEY (comment_user_id) REFERENCES shareStatus (post_id)
+      ) ENGINE=InnoDB;`,
+
+      (err) => {
+          if (err) {
+              return console.error(err.message);
+          }
+          console.log("Successful creation of the 'comment' table");
+      }
+    ); 
+}
+
 
 
 

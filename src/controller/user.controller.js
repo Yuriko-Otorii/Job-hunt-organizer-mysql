@@ -60,7 +60,7 @@ exports.postLoginInfo = (req, res, next) => {
                             email: userObj.email,
                         }
                                                 
-                        const token = jwt.sign(payload, 'secret', { expiresIn: '1h' })
+                        const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' })
                         res.cookie('token', token, { 
                             httpOnly: true,
                         });

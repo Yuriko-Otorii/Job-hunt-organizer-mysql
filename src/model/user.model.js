@@ -25,4 +25,9 @@ module.exports = class User {
         return db.execute(sql, params)
     }
 
+    static fetchAllUserInfo(){
+        const sql = `SELECT * FROM userInfo`
+        return db.query(sql)
+    }
+
 }

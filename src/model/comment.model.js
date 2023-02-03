@@ -28,12 +28,8 @@ module.exports = class Comment {
     }
 
     static fetchAllComments(){
-        const sql = `SELECT * FROM comment`
+        const sql = `SELECT * FROM comment ORDER BY comment_date DESC`
         return db.query(sql)
     }
-
-    static fetchCommentById(post_id){
-        const sql = `SELECT * FROM comment WHERE comment_post_id = ?`
-        return db.execute(sql, [post_id])
-    }
+    
 }

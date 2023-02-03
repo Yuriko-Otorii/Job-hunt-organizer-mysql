@@ -43,14 +43,12 @@ exports.getAllSharePosts = async (req, res, next) => {
             })
             if (!(item.likeStatus)) {
                 return item.likeStatus = false;                            
-            }
-            
+            }  
         })
-
+        
         allSharePosts.forEach(e => {
-            console.log(e.comment);
+            console.log(e);
         })
-        // console.log(allSharePosts);
         res.render('sharePage', {allSharePosts, usersLikedPosts, loginUserId: req.jwtPayload.user_id})
    
     } catch (error) {
@@ -144,3 +142,13 @@ exports.postComment = (req, res, next) => {
         })
 }
 
+exports.deleteComment = async (req, res, next) => {
+    try {
+        await Comment.deleteComment(...Object.values(req.body))
+        res.redirect('/sharepage')
+    } catch (error) {
+        console.error(err.message)
+        res.render('error', {message: "Something wrong in server.", btnMessage: "Back to share page", url: "/sharepage"})
+    }
+    
+}

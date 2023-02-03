@@ -32,4 +32,8 @@ module.exports = class Comment {
         return db.query(sql)
     }
     
+    static deleteComment(comment_id, comment_user_id){
+        const sql = `DELETE FROM comment WHERE comment_id = ? AND comment_user_id = ?`
+        return db.execute(sql, [comment_id, comment_user_id])
+    }
 }

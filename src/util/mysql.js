@@ -39,7 +39,7 @@ const createUserInfoTable = () => {
           if (err) {
               return console.error(err.message);
           }
-          console.log("Successful creation of the 'userInfo' table");
+          console.log("Successfully created the 'userInfo' table");
       }
     ); 
 }
@@ -86,7 +86,7 @@ const createCompanyListTable = () => {
         if (err) {
             return console.error(err.message);
         }
-        console.log("Successful creation of the 'companyList' table");
+        console.log("Successfully created the 'companyList' table");
     }
   )
 }
@@ -132,7 +132,7 @@ const createShareStatusTable = () => {
           if (err) {
               return console.error(err.message);
           }
-          console.log("Successful creation of the 'shareStatus' table");
+          console.log("Successfully created the 'shareStatus' table");
       }
     ); 
 }
@@ -161,14 +161,14 @@ const createlikePostTable = () => {
           likePost_user_id INT NOT NULL,
           likePost_post_id INT NOT NULL,
           FOREIGN KEY (likePost_user_id) REFERENCES userInfo (user_id),
-          FOREIGN KEY (likePost_user_id) REFERENCES shareStatus (post_id)
+          FOREIGN KEY (likePost_post_id) REFERENCES shareStatus (post_id)
       ) ENGINE=InnoDB;`,
 
       (err) => {
           if (err) {
               return console.error(err.message);
           }
-          console.log("Successful creation of the 'likePost' table");
+          console.log("Successfully created the 'likePost' table");
       }
     ); 
 }
@@ -206,7 +206,7 @@ const createCommentTable = () => {
           if (err) {
               return console.error(err.message);
           }
-          console.log("Successful creation of the 'comment' table");
+          console.log("Successfully created the 'comment' table");
       }
     ); 
 }

@@ -30,4 +30,9 @@ module.exports = class User {
         return db.query(sql)
     }
 
+    static fetchUsername = (id) => {
+        const sql = `SELECT username FROM userInfo WHERE user_id = ?`
+        return db.execute(sql, [id])
+    }
+
 }

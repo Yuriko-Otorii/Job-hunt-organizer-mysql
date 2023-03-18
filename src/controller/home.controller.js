@@ -2,6 +2,7 @@ const List = require("../model/list.model")
 const StatusPost = require("../model/statusPost.model");
 
 const jwt = require("jsonwebtoken");
+const User = require("../model/user.model");
 
 exports.getCompanyListPage = (req, res, next) => {
     const tokenStr = req.headers.cookie
@@ -20,10 +21,6 @@ exports.getCompanyListPage = (req, res, next) => {
 }
 
 exports.getDetailPage = (req, res, next) => {
-    const tokenStr = req.headers.cookie
-    const token = tokenStr.slice(6)
-    const decoded = jwt.verify(token, "secret");
-    req.jwtPayload = decoded;
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(([data]) => {
@@ -187,80 +184,91 @@ const getUserAllList = (page, message, url, req, res) => {
     const decoded = jwt.verify(token, "secret");
     req.jwtPayload = decoded;
 
-    const totalData = {
-        apply: [],
-        onProcess:  [],
-        noResponse: [],
-        offered: [],
-        declined: []
-    }
-    const todayData = {
-        apply: [],
-        onProcess:  [],
-        noResponse: [],
-        offered: [],
-        declined: []
-    }
-
-    List.getUserInfoAndList(req.jwtPayload.user_id)
+    const { user_id: userId } = req.jwtPayload
+    User.fetchUsername(userId)
         .then(([data]) => {
-            const userDatalist = data.filter((item) => item.list_user_id === req.jwtPayload.user_id)
-            const {username} = userDatalist[0]
-            const today = new Date()
-            let statusPostObj;
-
-
-            userDatalist.forEach(elem => {
-                const dateApplied = new Date(elem.date_applied)
-                totalData.apply.push(elem.date_applied)
-                //Check total number
-                if(elem.status === "onProcess"){
-                    totalData.onProcess.push(dateApplied)
-                }else if(elem.status === "noResponse"){
-                    totalData.noResponse.push(dateApplied)
-                
-                }else if(elem.status === "offered"){
-                    totalData.offered.push(dateApplied)
-                
-                }else if(elem.status === "declined"){
-                    totalData.declined.push(dateApplied)
-                }
-
-                //Check today's number
-                if(today.getDate() === dateApplied.getDate()){
-                    todayData.apply.push(dateApplied)
-                    if(elem.status === "onProcess"){
-                        todayData.onProcess.push(dateApplied)
-                    }else if(elem.status === "noResponse"){
-                        todayData.noResponse.push(dateApplied)
-                    
-                    }else if(elem.status === "offered"){
-                        todayData.offered.push(dateApplied)
-                    
-                    }else if(elem.status === "declined"){
-                        todayData.declined.push(dateApplied)
+            const username = data[0].username
+            const totalData = {
+                apply: [],
+                onProcess:  [],
+                noResponse: [],
+                offered: [],
+                declined: []
+            }
+            const todayData = {
+                apply: [],
+                onProcess:  [],
+                noResponse: [],
+                offered: [],
+                declined: []
+            }
+        
+            List.getUserInfoAndList(req.jwtPayload.user_id)
+                .then(([data]) => {
+                    const userDatalist = data.filter((item) => item.list_user_id === req.jwtPayload.user_id)
+                    if(userDatalist[0]){
+                        const today = new Date()
+                        let statusPostObj;
+            
+                        userDatalist.forEach(elem => {
+                            const dateApplied = new Date(elem.date_applied)
+                            totalData.apply.push(elem.date_applied)
+                            //Check total number
+                            if(elem.status === "onProcess"){
+                                totalData.onProcess.push(dateApplied)
+                            }else if(elem.status === "noResponse"){
+                                totalData.noResponse.push(dateApplied)
+                            
+                            }else if(elem.status === "offered"){
+                                totalData.offered.push(dateApplied)
+                            
+                            }else if(elem.status === "declined"){
+                                totalData.declined.push(dateApplied)
+                            }
+            
+                            //Check today's number
+                            if(today.getDate() === dateApplied.getDate()){
+                                todayData.apply.push(dateApplied)
+                                if(elem.status === "onProcess"){
+                                    todayData.onProcess.push(dateApplied)
+                                }else if(elem.status === "noResponse"){
+                                    todayData.noResponse.push(dateApplied)
+                                
+                                }else if(elem.status === "offered"){
+                                    todayData.offered.push(dateApplied)
+                                
+                                }else if(elem.status === "declined"){
+                                    todayData.declined.push(dateApplied)
+                                }
+                            }
+                        });
+            
+                        
+                        
+                        StatusPost.fetchSharePostById(req.params.postId)
+                            .then(([statusPostData]) => {
+                                statusPostObj = statusPostData
+                                
+                            })
+                            .catch((err) => {
+                                console.error(err.message)
+                                res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
+                            });
+                            
+                        return res.render(page, {username, todayData, totalData, postId: req.params.postId, statusPostObj})
+                    }else{
+                        return res.render(page, {username, todayData, totalData, postId: req.params.postId})
                     }
-                }
-            });
-
-            
-            
-            StatusPost.fetchSharePostById(req.params.postId)
-                .then(([statusPostData]) => {
-                    // console.log(statusPostData);
-                    statusPostObj = statusPostData
-                    
                 })
-                .catch((err) => {
-                    console.error(err.message)
-                    res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
-                });
-                
-            console.log(statusPostObj);
-            return res.render(page, {username, todayData, totalData, postId: req.params.postId, statusPostObj})
+            .catch((err) => {
+                console.error(err.message)
+                res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
+            })  
+
         })
         .catch((err) => {
             console.error(err.message)
-            res.render('error', {message: "Something wrong in server.", btnMessage: message, url: url})
-        })  
+            res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
+        })
+
 }

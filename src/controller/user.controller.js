@@ -16,7 +16,7 @@ exports.postSignupInfo = (req, res, next) => {
     const newUser = new User(username, email, hassedPassword)
     newUser.signup()
         .then(() => {
-            return res.redirect('/login')
+            return res.redirect('/')
         })
         .catch((err) => {
             if(err.message.includes("for key 'userInfo.username'")){

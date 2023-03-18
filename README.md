@@ -2,7 +2,7 @@
 Using this app, you can track which company you applied for and record the status of the process with a simple and beautiful UI.  
 
 # Demo
-https://node-js-mid-term-five.vercel.app
+https://job-hunt-org.vercel.app
 
 # Features
 -Record companies with details such as email, website, and applied date and you can take notes whatever you want.  

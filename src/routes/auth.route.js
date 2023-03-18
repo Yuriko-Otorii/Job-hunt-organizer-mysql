@@ -8,11 +8,12 @@ const {
   postDeleteCookie,
 } = require('../controller/user.controller')
 
+router.get('/', getLoginPage)
+router.post('/validate', postLoginInfo)
+
 router.get('/signup', getSignupPage)
 router.post('/signup/create', postSignupInfo)
 
-router.get('/login', getLoginPage)
-router.post('/login/validate', postLoginInfo)
 
 router.post('/deleteCookie', postDeleteCookie)
 

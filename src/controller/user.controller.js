@@ -79,9 +79,13 @@ exports.checkToken = (req, res, next) => {
     try {
         const tokenStr = req.headers.cookie
         const token = tokenStr.slice(6)
-        const decoded = jwt.verify(token, "secret");
-        req.jwtPayload = decoded;
-        next();
+        jwt.verify(token, 'secret', (err, payload) => {
+            if(err){
+                res.redirect('/login')
+            }else{
+                next();
+            }
+        })
     } catch (error) {
         res.render('error', {message: "It seems you are not authorized ...", btnMessage: "Back to login", url: "login"})
     }

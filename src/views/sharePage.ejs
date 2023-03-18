@@ -29,18 +29,18 @@
   </div>
   <div class="container mx-auto relative z-10">
     <div class="flex flex-col items-center justify-center gap-5">
-      <% allSharePosts.forEach(item => { %>
+      <% allSharePosts.forEach(postItem => { %>
       <div
         class="relative z-50 box bg-white p-3 pt-10 w-fit md:px-5 md:pt-4 lg:px-5 border-t-10 border-solid border-indigo-600 rounded-lg opacity-80"
       >
         <div class="flex flex-col justify-between">
           <div class="flex flex-col ml-5">
             <div class="flex items-end">
-              <h1 class="font-bold text-xl mr-3"><%= item.username %></h1>
+              <h1 class="font-bold text-xl mr-3"><%= postItem.username %></h1>
               <div
                 class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
               >
-                <%= item.post_message %>
+                <%= postItem.post_message %>
               </div>
             </div>
             <table
@@ -63,27 +63,27 @@
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.total_applied %>
+                      <%= postItem.total_applied %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.total_onprocess %>
+                      <%= postItem.total_onprocess %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.total_noresponse %>
+                      <%= postItem.total_noresponse %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.total_offered %>
+                      <%= postItem.total_offered %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.total_declined %>
+                      <%= postItem.total_declined %>
                     </p>
                   </td>
                 </tr>
@@ -93,38 +93,38 @@
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.today_applied %>
+                      <%= postItem.today_applied %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.today_onprocess %>
+                      <%= postItem.today_onprocess %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.today_noresponse %>
+                      <%= postItem.today_noresponse %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.today_offered %>
+                      <%= postItem.today_offered %>
                     </p>
                   </td>
                   <td class="py-3">
                     <p class="font-bold text-gray-700 text-xl text-center">
-                      <%= item.today_declined %>
+                      <%= postItem.today_declined %>
                     </p>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <p class="mb-4 text-gray-700 text-sm">Post: <%= item.post_create_date %></p>
+            <p class="mb-4 text-gray-700 text-sm">Post: <%= postItem.post_create_date %></p>
           </div>
           <div class="flex items-center justify-between ml-5 pr-5 w-full">
             <div class="flex items-center">
               <form action="/sharepage/likepost" method="POST">
-                <% if(item.likeStatus){ %>
+                <% if(postItem.likeStatus){ %>
                 <div class="flex transition transform hover:-translate-y-0.5">
                   <button type="submit">
                     <div
@@ -134,18 +134,18 @@
                       <input
                         type="hidden"
                         name="post_id"
-                        value="<%= item.post_id %>"
+                        value="<%= postItem.post_id %>"
                       />
                       <input
                         type="hidden"
                         name="likeStatus"
-                        value="<%= item.likeStatus %>"
+                        value="<%= postItem.likeStatus %>"
                       />
                     </div>
                   </button>
                   <div class="flex justify-center items-center">
                     <p class="font-bold text-lg text-gray-600">
-                      <%= allSharePosts.length %>
+                      <%= postItem.allLikes.length %>
                     </p>
                   </div>
                 </div>
@@ -159,34 +159,34 @@
                       <input
                         type="hidden"
                         name="post_id"
-                        value="<%= item.post_id %>"
+                        value="<%= postItem.post_id %>"
                       />
                       <input
                         type="hidden"
                         name="likeStatus"
-                        value="<%= item.likeStatus %>"
+                        value="<%= postItem.likeStatus %>"
                       />
                     </div>
                   </button>
                   <div class="flex justify-center items-center">
                     <p class="font-bold text-lg text-gray-600">
-                      <%= allSharePosts.length %>
+                      <%= postItem.allLikes.length %>
                     </p>
                   </div>
                 </div>
                 <% } %>
               </form>
               <div
-                onclick="commentDisplay('<%= item.post_id %>')"
+                onclick="commentDisplay('<%= postItem.post_id %>')"
                 class="commentDisplayBtn flex justify-center items-center p-2 text-gray-500 ml-2 transition transform hover:-translate-y-0.5 hover:text-gray-800"
               >
                 <i class="fa-solid fa-comment fa-xl"></i>
                 <p class="font-bold text-lg text-gray-600 pl-2">
-                  <%= item.comment.length %>
+                  <%= postItem.comment.length %>
                 </p>
               </div>
             </div>
-            <% if(item.post_user_id === loginUserId){ %>
+            <% if(postItem.post_user_id === loginUserId){ %>
             <div class="group inline-block relative">
               <button
                 type="button"
@@ -209,14 +209,14 @@
                 <li>
                   <a
                     class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-7 block whitespace-no-wrap"
-                    href="/sharepage/<%= item.post_id %>/edit"
+                    href="/sharepage/<%= postItem.post_id %>/edit"
                     >Edit</a
                   >
                 </li>
                 <li>
                   <form
-                    onSubmit="return postDeleteConfirm('<%= item.post_id %>')"
-                    action="/sharepage/<%= item.post_id %>/delete?_method=DELETE"
+                    onSubmit="return postDeleteConfirm('<%= postItem.post_id %>')"
+                    action="/sharepage/<%= postItem.post_id %>/delete?_method=DELETE"
                     method="POST"
                   >
                     <button
@@ -234,17 +234,17 @@
             <% } %>
           </div>
         </div>
-        <div class="commentSection<%= item.post_id %> hidden">
+        <div class="commentSection<%= postItem.post_id %> hidden">
           <form action="/sharepage/postcomment" method="POST" class="w-full">
             <div class="flex items-center w-full my-4 mx-5">
               <input type="text" name="comment" placeholder="Write comment...." class="rounded-lg p-1 border border-gray-600 w-full mr-2">
-              <input type="hidden" name="comment_post_id" value="<%= item.post_id %>">
+              <input type="hidden" name="comment_post_id" value="<%= postItem.post_id %>">
               <button type="submit" class="mr-10 submitBtn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Send</button>
             </div>
           </form>
           <div class="flex flex-col">
-            <% if(Array.isArray(item.comment)){ %>
-              <% item.comment.forEach((eachComment) => { %>
+            <% if(Array.isArray(postItem.comment)){ %>
+              <% postItem.comment.forEach((eachComment) => { %>
               <div class="flex flex-col border border-gray-600 rounded-lg p-4 mx-5 text-gray-700 mb-3">
                 <p><%= eachComment.username %></p>
                 <p class="text-xl mb-4"><%= eachComment.comment %></p>

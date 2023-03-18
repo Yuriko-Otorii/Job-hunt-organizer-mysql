@@ -36,6 +36,12 @@ exports.getAllSharePosts = async (req, res, next) => {
             const postDate = new Date(item.post_create_date)
             item.post_create_date = postDate.toLocaleDateString()
 
+            // console.log("allLikedPosts>>>>>>>>>>", allLikedPosts);
+
+            const eachPostLikes = allLikedPosts.filter(likeItem => likeItem.likePost_post_id === item.post_id)
+            // console.log("eachPostLikes>>>>>>>", eachPostLikes);
+            item.allLikes = eachPostLikes
+
             usersLikedPosts.forEach(likedPost => {
                 if(item.post_id === likedPost.likePost_post_id){
                     return item.likeStatus = true
@@ -46,9 +52,7 @@ exports.getAllSharePosts = async (req, res, next) => {
             }  
         })
         
-        allSharePosts.forEach(e => {
-            console.log(e);
-        })
+        console.log(allSharePosts);
         res.render('sharePage', {allSharePosts, usersLikedPosts, loginUserId: req.jwtPayload.user_id})
    
     } catch (error) {

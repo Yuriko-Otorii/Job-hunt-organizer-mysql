@@ -23,8 +23,12 @@ const authRoute = require('./routes/auth.route');
 const homeRoute = require('./routes/home.route');
 const sharepageRoute = require('./routes/sharePage.route');
 
+//Check user
+const {checkToken} = require('./controller/user.controller')
+
 //routes
 app.use('/', authRoute);
+app.use(checkToken)
 app.use('/home', homeRoute);
 app.use('/sharepage', sharepageRoute);
 

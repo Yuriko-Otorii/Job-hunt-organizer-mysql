@@ -21,10 +21,13 @@ exports.getCompanyListPage = (req, res, next) => {
 }
 
 exports.getDetailPage = (req, res, next) => {
+    const tokenStr = req.headers.cookie
+    const token = tokenStr.slice(6)
+    const decoded = jwt.verify(token, "secret");
+    req.jwtPayload = decoded;
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(([data]) => {
-            console.log(data[0].next.next[0]);
             res.render("detail", {detailInfo: data[0]})
         })
         .catch((err) => {

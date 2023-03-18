@@ -36,10 +36,7 @@ exports.getAllSharePosts = async (req, res, next) => {
             const postDate = new Date(item.post_create_date)
             item.post_create_date = postDate.toLocaleDateString()
 
-            // console.log("allLikedPosts>>>>>>>>>>", allLikedPosts);
-
             const eachPostLikes = allLikedPosts.filter(likeItem => likeItem.likePost_post_id === item.post_id)
-            // console.log("eachPostLikes>>>>>>>", eachPostLikes);
             item.allLikes = eachPostLikes
 
             usersLikedPosts.forEach(likedPost => {
@@ -52,7 +49,6 @@ exports.getAllSharePosts = async (req, res, next) => {
             }  
         })
         
-        console.log(allSharePosts);
         res.render('sharePage', {allSharePosts, usersLikedPosts, loginUserId: req.jwtPayload.user_id})
    
     } catch (error) {
@@ -88,7 +84,6 @@ exports.postShareStatus = (req, res, next) => {
 
 
 exports.updateShareStatus = (req, res, next) => {
-    console.log("UPDATE");
     const tokenStr = req.headers.cookie
     const token = tokenStr.slice(6)
     const decoded = jwt.verify(token, "secret");
@@ -97,7 +92,6 @@ exports.updateShareStatus = (req, res, next) => {
     const updatedObj = req.body
     updatedObj.post_user_id = String(req.jwtPayload.user_id)
     updatedObj.post_id = req.params.postId
-    console.log(updatedObj);
 
     StatusPost.updateSharePost(updatedObj)
         .then(() => {

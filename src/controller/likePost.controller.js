@@ -9,7 +9,6 @@ exports.handleLikeAction = (req, res, next) => {
     req.jwtPayload = decoded;
 
     const reqObj = req.body
-    console.log(reqObj);
 
     if(reqObj.likeStatus === "true"){
         //Delete data from likePost table

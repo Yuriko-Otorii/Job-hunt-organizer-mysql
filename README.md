@@ -13,20 +13,20 @@ https://job-hunt-org.vercel.app
 -Share your application status with the public. This will motivate you to keep applying for jobs.  
  
 # Installation 
-1. After clone this repogitory, install node modules in the root directory.  
+1. After clone this repogitory, install node modules in the root directory.   
     ```
     npm install
     ```
 
-2. Run the application by this command.  
+2. Run the application by this command.   
     ```
     npm run dev
     ```
 
 ## Frameworks and database
 expressjs  
-EJS
-Railway(MySQL)
+EJS  
+Railway(MySQL)  
 Tailwind  
 
 

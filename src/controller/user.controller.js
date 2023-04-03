@@ -42,7 +42,7 @@ exports.postLoginInfo = (req, res, next) => {
     login(email)
         .then((passwordFromdb) => {
             if (passwordFromdb[0].length === 0) {
-                res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "login"})
+                res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "/"})
                 console.log("E-mail doesn't exist...");
             } else {
                 const userObj = passwordFromdb[0][0]
@@ -50,7 +50,7 @@ exports.postLoginInfo = (req, res, next) => {
                     if(err) return res.status(404).render('404error')
 
                     if(!result){
-                        res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "login"})
+                        res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "/"})
                         console.log('Wrong password...');
                     }else{
                         console.log('Successfully logged in!');

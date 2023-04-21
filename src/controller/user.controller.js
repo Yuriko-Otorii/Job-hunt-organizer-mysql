@@ -81,13 +81,13 @@ exports.checkToken = (req, res, next) => {
         const token = tokenStr.slice(6)
         jwt.verify(token, 'secret', (err, payload) => {
             if(err){
-                res.redirect('/')
+                res.redirect("")
             }else{
                 next();
             }
         })
     } catch (error) {
-        res.render('error', {message: "It seems you are not authorized ...", btnMessage: "Back to login", url: "/"})
+        res.render('error', {message: "It seems you are not authorized ...", btnMessage: "Back to login", url: ""})
     }
 }
 

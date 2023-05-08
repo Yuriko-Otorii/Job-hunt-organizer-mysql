@@ -19,10 +19,7 @@ exports.postSignupInfo = (req, res, next) => {
             return res.redirect('/')
         })
         .catch((err) => {
-            if(err.message.includes("for key 'userInfo.username'")){
-                res.render('error', {message: "Username already exists.", btnMessage: "Back to sign up", url: "signup"})
-                console.log("Username already exists.");
-            }else if(err.message.includes("for key 'userInfo.email'")){
+            if(err.message.includes("userinfo_email_key")){
                 res.render('error', {message: "E-mail already exists.", btnMessage: "Back to sign up", url: "signup"})
                 console.log("E-mail already exists.");
             }else{
@@ -40,14 +37,13 @@ exports.postLoginInfo = (req, res, next) => {
     const { email, password } = req.body;
 
     login(email)
-        .then((passwordFromdb) => {
-            if (passwordFromdb[0].length === 0) {
+        .then((response) => {
+            if (response.rows.length === 0) {
                 res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "/"})
                 console.log("E-mail doesn't exist...");
             } else {
-                const userObj = passwordFromdb[0][0]
-                bcrypt.compare(password, userObj.password, (err, result) => {
-                    if(err) return res.status(404).render('404error')
+                const userPassFromDb = response.rows[0].password
+                bcrypt.compare(password, userPassFromDb, (err, result) => {
 
                     if(!result){
                         res.render('error', {message: "Wrong login information...", btnMessage: "Back to login", url: "/"})
@@ -55,9 +51,9 @@ exports.postLoginInfo = (req, res, next) => {
                     }else{
                         console.log('Successfully logged in!');
                         const payload = {
-                            user_id: userObj.user_id,
-                            username: userObj.username,
-                            email: userObj.email,
+                            user_id: response.rows[0].user_id,
+                            username: response.rows[0].username,
+                            email: response.rows[0].email,
                         }
                                                 
                         const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' })

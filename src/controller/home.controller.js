@@ -11,10 +11,10 @@ exports.getCompanyListPage = (req, res, next) => {
     req.jwtPayload = decoded;
 
     List.fetchList(req.jwtPayload.user_id)
-        .then(([data]) => {
-            res.render('processList', { list: data })
+        .then(data => {
+            res.render('processList', { list: data.rows})
         })
-        .catch((err) => {
+        .catch(err => {
             console.error(err.message)
             res.render('error', {message: "Something wrong in server.", btnMessage: "Back to home", url: "home"})
         })
@@ -27,8 +27,8 @@ exports.getDetailPage = (req, res, next) => {
     req.jwtPayload = decoded;
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
-        .then(([data]) => {
-            res.render("detail", {detailInfo: data[0]})
+        .then(data => {
+            res.render("detail", {detailInfo: data.rows})
         })
         .catch((err) => {
             console.error(err.message)
@@ -43,8 +43,8 @@ exports.getEditPage = (req,res, next) => {
     req.jwtPayload = decoded;
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
-        .then(([data]) => {
-            res.render("edit", {detailInfo: data[0]})
+        .then(data => {
+            res.render("edit", {detailInfo: data.rows})
         })
         .catch((err) => {
             console.error(err.message)
@@ -189,8 +189,8 @@ const getUserAllList = (page, message, url, req, res) => {
 
     const { user_id: userId } = req.jwtPayload
     User.fetchUsername(userId)
-        .then(([data]) => {
-            const username = data[0].username
+        .then(data => {
+            const username = data.rows[0].username
             const totalData = {
                 apply: [],
                 onProcess:  [],
@@ -207,8 +207,8 @@ const getUserAllList = (page, message, url, req, res) => {
             }
         
             List.getUserInfoAndList(req.jwtPayload.user_id)
-                .then(([data]) => {
-                    const userDatalist = data.filter((item) => item.list_user_id === req.jwtPayload.user_id)
+                .then(data => {
+                    const userDatalist = data.rows.filter((item) => item.list_user_id === req.jwtPayload.user_id)
                     if(userDatalist[0]){
                         const today = new Date()
                         let statusPostObj;

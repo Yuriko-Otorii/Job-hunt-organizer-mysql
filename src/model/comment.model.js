@@ -1,5 +1,5 @@
 const db = require("../util/mysql");
-
+const pool = require('../util/postgres')
 module.exports = class Comment {
     constructor(comment, comment_post_id, comment_user_id, comment_date){
         this.comment_user_id = comment_user_id;
@@ -15,7 +15,7 @@ module.exports = class Comment {
             comment_post_id,
             comment_user_id,
             comment_date
-            ) VALUES (?, ?, ?, ?)
+            ) VALUES ($1, $2, $3, $4)
         `
         const params = [
             this.comment,
@@ -24,16 +24,16 @@ module.exports = class Comment {
             this.comment_date
         ]
 
-        return db.execute(sql, params)
+        return pool.query(sql, params)
     }
 
     static fetchAllComments(){
         const sql = `SELECT * FROM comment ORDER BY comment_date DESC`
-        return db.query(sql)
+        return pool.query(sql)
     }
     
     static deleteComment(comment_id, comment_user_id){
-        const sql = `DELETE FROM comment WHERE comment_id = ? AND comment_user_id = ?`
-        return db.execute(sql, [comment_id, comment_user_id])
+        const sql = `DELETE FROM comment WHERE comment_id = $1 AND comment_user_id = $2`
+        return pool.query(sql, [comment_id, comment_user_id])
     }
 }

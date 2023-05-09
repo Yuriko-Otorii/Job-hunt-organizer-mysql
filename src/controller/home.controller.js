@@ -28,7 +28,7 @@ exports.getDetailPage = (req, res, next) => {
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(data => {
-            res.render("detail", {detailInfo: data.rows})
+            res.render("detail", {detailInfo: data.rows[0]})
         })
         .catch((err) => {
             console.error(err.message)
@@ -44,7 +44,7 @@ exports.getEditPage = (req,res, next) => {
 
     List.getDetailById(req.params.listId, req.jwtPayload.user_id)
         .then(data => {
-            res.render("edit", {detailInfo: data.rows})
+            res.render("edit", {detailInfo: data.rows[0]})
         })
         .catch((err) => {
             console.error(err.message)
@@ -208,7 +208,8 @@ const getUserAllList = (page, message, url, req, res) => {
         
             List.getUserInfoAndList(req.jwtPayload.user_id)
                 .then(data => {
-                    const userDatalist = data.rows.filter((item) => item.list_user_id === req.jwtPayload.user_id)
+                    const userDatalist = data.rows
+                    .filter((item) => item.list_user_id === req.jwtPayload.user_id)
                     if(userDatalist[0]){
                         const today = new Date()
                         let statusPostObj;

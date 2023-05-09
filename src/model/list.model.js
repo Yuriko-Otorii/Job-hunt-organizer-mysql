@@ -77,15 +77,15 @@ module.exports = class List {
             status = $1,
             company_name = $2,
             location = $3,
-            company_email = $3,
-            company_phone = $4,
-            company_website = $5,
-            date_applied = $6,
-            job_type = $7,
-            position = $8,
-            next = $9,
-            notes = $10
-            WHERE (list_id = $11 AND list_user_id = $12)
+            company_email = $4,
+            company_phone = $5,
+            company_website = $6,
+            date_applied = $7,
+            job_type = $8,
+            position = $9,
+            next = $10,
+            notes = $11
+            WHERE (list_id = $12 AND list_user_id = $13)
         `
         const params = [
             data.status,
@@ -102,7 +102,6 @@ module.exports = class List {
             id,
             data.list_user_id
         ]
-        
         return pool.query(sql, params)
     }
 
@@ -118,7 +117,7 @@ module.exports = class List {
     }
 
     static getUserInfoAndList = (user_id) => {
-        const sql = `SELECT * FROM companylist INNER JOIN userInfo ON companylist.list_user_id = user_id`
+        const sql = `SELECT * FROM companylist INNER JOIN userInfo ON companylist.list_user_id = $1`
         return pool.query(sql, [user_id])
     }
    

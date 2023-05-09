@@ -12,11 +12,11 @@ exports.getAllSharePosts = async (req, res, next) => {
     req.jwtPayload = decoded;
 
     try {
-        const [allSharePosts] = await StatusPost.fetchAllSharePost()
-        const [allLikedPosts] = await LikePost.fetchAllLikePosts()
-        const [allComments] = await Comment.fetchAllComments()
-        const [allUsersInfo] = await User.fetchAllUserInfo()
-        const usersLikedPosts = allLikedPosts.filter(item => item.likePost_user_id === req.jwtPayload.user_id)
+        const {rows: allSharePosts} = await StatusPost.fetchAllSharePost()
+        const {rows: allLikedPosts} = await LikePost.fetchAllLikePosts()
+        const {rows: allComments} = await Comment.fetchAllComments()
+        const {rows: allUsersInfo} = await User.fetchAllUserInfo()
+        const usersLikedPosts = allLikedPosts.filter(item => item.likepost_user_id === req.jwtPayload.user_id)
 
         allSharePosts.map(async (item) => {
             item.comment = []
@@ -36,11 +36,11 @@ exports.getAllSharePosts = async (req, res, next) => {
             const postDate = new Date(item.post_create_date)
             item.post_create_date = postDate.toLocaleDateString()
 
-            const eachPostLikes = allLikedPosts.filter(likeItem => likeItem.likePost_post_id === item.post_id)
+            const eachPostLikes = allLikedPosts.filter(likeItem => likeItem.likepost_post_id === item.post_id)
             item.allLikes = eachPostLikes
 
             usersLikedPosts.forEach(likedPost => {
-                if(item.post_id === likedPost.likePost_post_id){
+                if(item.post_id === likedPost.likepost_post_id){
                     return item.likeStatus = true
                 }
             })

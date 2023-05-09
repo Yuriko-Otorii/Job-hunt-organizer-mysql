@@ -29,7 +29,7 @@ module.exports = class LikePost {
 
     static deleteData(likePost_id, like_user_id){
         const sql = `DELETE FROM likepost WHERE likePost_post_id = $1 AND likePost_user_id = $2`
-        return pool.query(sql, [+likePost_id, like_user_id])
+        return pool.query(sql, [likePost_id, like_user_id])
     }
 
 }

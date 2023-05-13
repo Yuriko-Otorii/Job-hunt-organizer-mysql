@@ -1,5 +1,6 @@
 const db = require("../util/mysql");
 const pool = require('../util/postgres')
+const client = require('../util/neon')
 const bcrypt = require('bcrypt');
 
 module.exports = class User {
@@ -13,28 +14,28 @@ module.exports = class User {
         const sql = `INSERT INTO userinfo (username,  email, password) VALUES ($1, $2, $3)`
         const values = [this.username, this.email, this.password]
 
-        return pool.query(sql, values)
+        return client.query(sql, values)
     }
     
     static login(email){
         const sql = `SELECT * FROM userinfo WHERE email = $1`
-        return pool.query(sql, [email])        
+        return client.query(sql, [email])        
     }
 
     static updateUsername(data, user_id){
         const sql = `UPDATE userinfo SET username = $1 WHERE user_id = $2`
         const params = [data, user_id]
-        return pool.query(sql, params)
+        return client.query(sql, params)
     }
 
     static fetchAllUserInfo(){
         const sql = `SELECT * FROM userinfo`
-        return pool.query(sql)
+        return client.query(sql)
     }
 
     static fetchUsername = (id) => {
         const sql = `SELECT username FROM userinfo WHERE user_id = $1`
-        return pool.query(sql, [id])
+        return client.query(sql, [id])
     }
 }
 // module.exports = class User {

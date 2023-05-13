@@ -1,5 +1,6 @@
 const db = require("../util/mysql");
 const pool = require('../util/postgres')
+const client = require('../util/neon')
 
 module.exports = class StatusPost {
     constructor(post_message, total_applied, total_onprocess, total_noresponse, total_offered, total_declined, today_applied, today_onprocess, today_noresponse, today_offered, today_declined, post_user_id, post_create_date){
@@ -53,17 +54,17 @@ module.exports = class StatusPost {
             this.post_create_date,
         ]
 
-        return pool.query(sql, params)
+        return client.query(sql, params)
     }
 
     static fetchAllSharePost(){
         const sql = `SELECT * FROM sharestatus INNER JOIN userInfo ON sharestatus.post_user_id = user_id ORDER BY post_create_date DESC`
-        return pool.query(sql)
+        return client.query(sql)
     }
 
     static fetchSharePostById(id){
         const sql = `SELECT * FROM sharestatus where post_id = $1`
-        return pool.query(sql, [id])
+        return client.query(sql, [id])
     }
 
     static updateSharePost(data){
@@ -99,12 +100,12 @@ module.exports = class StatusPost {
             data.post_id,
             data.post_user_id,
         ]
-        return pool.query(sql, params)
+        return client.query(sql, params)
     }
 
     static deleteSharePost(post_id, post_user_id){
         const sql = `DELETE FROM sharestatus WHERE post_id = $1 AND post_user_id = $2`
-        return pool.query(sql, [post_id, post_user_id])
+        return client.query(sql, [post_id, post_user_id])
     }
     
 }

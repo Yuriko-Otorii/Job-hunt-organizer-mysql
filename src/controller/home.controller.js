@@ -148,7 +148,7 @@ exports.updateFavorite = (req, res, next) => {
     req.jwtPayload = decoded;
 
     const { favorite, list_id } = req.body
-    if(+favorite === 0){
+    if(favorite === "false"){
         List.updateFavorite(true, list_id, req.jwtPayload.user_id)
             .then(() => {
                 return res.redirect('/home')
@@ -208,12 +208,12 @@ const getUserAllList = (page, message, url, req, res) => {
         
             List.getUserInfoAndList(req.jwtPayload.user_id)
                 .then(data => {
+                    // console.log(data);
                     const userDatalist = data.rows
                     .filter((item) => item.list_user_id === req.jwtPayload.user_id)
                     if(userDatalist[0]){
                         const today = new Date()
                         let statusPostObj;
-            
                         userDatalist.forEach(elem => {
                             const dateApplied = new Date(elem.date_applied)
                             totalData.apply.push(elem.date_applied)

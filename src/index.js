@@ -4,7 +4,6 @@ const path = require('path')
 const logger = require('morgan')
 const methodOverride = require('method-override');
 require('dotenv').config();
-const pool = require('./util/postgres')
 
 const app = express()
 
@@ -18,6 +17,8 @@ app.use(methodOverride('_method'))
 
 //db connection
 const dbConnection = require("./util/mysql");
+const pool = require('./util/postgres')
+const client = require('./util/neon')
 
 //import routes
 const authRoute = require('./routes/auth.route');
@@ -38,7 +39,7 @@ app.use((req, res, next) => {
 })
 
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8080
 app.listen(PORT, async () => {
     console.log(`Server listening on port ${PORT}`)
 
@@ -47,9 +48,13 @@ app.listen(PORT, async () => {
     // if(data) console.log("Successful connection to the MySQL database")
 
     // Postgres
-    const res = await pool.connect()
-    if(res) console.log("Successful connection to the Postgres database")
+    // const res = await pool.connect()
+    // if(res) console.log("Successful connection to the Postgres database")
     
+    // Neon
+    await client.connect()
+    const res = await client.query('SELECT $1::text as message', ['db connected!'])
+    console.log(res.rows[0].message)
 })
 
 

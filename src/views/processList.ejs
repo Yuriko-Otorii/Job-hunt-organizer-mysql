@@ -38,7 +38,7 @@
           <button type="button" onclick="handleStarFilter()" class="group inline-flex items-center px-4 py-2.5 mb-2 text-sm font-medium text-center border border-yellow-300 text-yellow-300 bg-white rounded-full focus:ring-4 focus:outline-none focus:ring-yellow-300 hover:bg-yellow-300 hover:text-white">
             <i class="fa-regular fa-star"></i>
             <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-md font-semibold text-yellow-300 group-hover:text-white">
-              <%= list.filter(item => item.favorite === 1).length %>
+              <%= list.filter(item => item.favorite === true).length %>
             </span>
           </button>
         </div>
@@ -103,7 +103,7 @@
             <tbody>
               <% list.forEach((item) => { %>
                 <tr>
-                  <% if(item.favorite === 0){ %>
+                  <% if(item.favorite === false){ %>
                     <td id="starRow" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <form action="/home/favupdate?_method=PUT" method="POST">
                         <button type="submit"><i class="fa-regular fa-star"></i></button>
@@ -267,7 +267,7 @@
 
       const starValue = row.querySelector("#starValue").value
       for (let j = 0; j < row.cells.length; j++) {
-        if(starValue === "1"){
+        if(starValue === "true"){
           row.style.display = 'table-row';
           break;
         }

@@ -1,5 +1,6 @@
 const db = require("../util/mysql");
 const pool = require('../util/postgres')
+const client = require('../util/neon')
 
 module.exports = class List {
     constructor(status, company_name, location=null, company_email, company_phone=null, company_website=null, date_applied, job_type, position, next=null, notes=null, list_user_id, favorite=false){
@@ -53,22 +54,22 @@ module.exports = class List {
             this.list_user_id
         ]
 
-        return pool.query(sql, params)
+        return client.query(sql, params)
     }
 
     static fetchList = (id) => {
-        const sql = `SELECT * FROM companylist WHERE list_user_id = $1`
-        return pool.query(sql, [id])
+        const sql = `SELECT * FROM companylist WHERE list_user_id = $1 order by created_at`
+        return client.query(sql, [id])
     }
 
     static getDetailById = (list_id, list_user_id) => {
         const sql = `SELECT * FROM companylist WHERE list_id = $1 AND list_user_id = $2`
-        return pool.query(sql, [list_id, list_user_id])
+        return client.query(sql, [list_id, list_user_id])
     }
     
     static getUserAllListById = (user_id) => {
         const sql = `SELECT * FROM companylist WHERE list_user_id = $1`
-        return pool.query(sql, [user_id])
+        return client.query(sql, [user_id])
     }
 
     static updateList = (data, id) => {
@@ -102,23 +103,25 @@ module.exports = class List {
             id,
             data.list_user_id
         ]
-        return pool.query(sql, params)
+        return client.query(sql, params)
     }
 
     static updateFavorite = (data, list_id, list_user_id) => {
         const sql = `UPDATE companylist SET favorite = $1 WHERE list_id = $2 AND list_user_id = $3`
-        const params = [data, +list_id, +list_user_id]
-        return pool.query(sql, params)
+        const params = [data, list_id, list_user_id]
+        return client.query(sql, params)
     }
 
     static deleteList = (list_id, list_user_id) => {
         const sql = `DELETE FROM companylist WHERE list_id = $1 AND list_user_id = $2`
-        return pool.query(sql, [list_id, list_user_id])
+        return client.query(sql, [list_id, list_user_id])
     }
 
     static getUserInfoAndList = (user_id) => {
-        const sql = `SELECT * FROM companylist INNER JOIN userInfo ON companylist.list_user_id = $1`
-        return pool.query(sql, [user_id])
+        console.log(user_id);
+        const sql = `SELECT * FROM companylist WHERE list_user_id = $1`
+        // const sql = `SELECT * FROM companylist INNER JOIN userInfo ON companylist.list_user_id = $1`
+        return client.query(sql, [user_id])
     }
    
 }
